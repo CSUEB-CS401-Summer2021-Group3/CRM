@@ -1,4 +1,4 @@
-javac -d bin -cp .\src\main\java\edu\cs401group3\crm\client\Client.java .\src\main\java\edu\cs401group3\crm\server\clienthandler\ClientHandler.java .\src\main\java\edu\cs401group3\crm\server\Server.java
+javac -d bin -cp .\src\main\java\edu\cs401group3\crm\client\Client.java .\src\main\java\edu\cs401group3\crm\server\clienthandler\ClientHandler.java .\src\main\java\edu\cs401group3\crm\common\Log.java .\src\main\java\edu\cs401group3\crm\server\Server.java
 
 java -cp bin edu.cs401group3.crm.server.Server
 java -cp bin edu.cs401group3.crm.client.Client 
