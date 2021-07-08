@@ -42,6 +42,7 @@ java -cp bin edu.cs401group3.crm.client.Client
 ## How to Contribute
 
 **Have a test plan for each module you implement**
+
 **Document your code**
 
 1. Review the design document
