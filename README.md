@@ -41,6 +41,9 @@ java -cp bin edu.cs401group3.crm.client.Client
 
 ## How to Contribute
 
+**Have a test plan for each module you implement**
+**Document your code**
+
 1. Review the design document
 2. Determine which component you wish to work on
 3. Create an issue on github detailing what component you are implement, add rest of team to the issue, assign it to yourself.
