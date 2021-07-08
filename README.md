@@ -40,4 +40,11 @@ java -cp bin edu.cs401group3.crm.client.Client
 ```
 
 ## How to Contribute
-TODO
+
+1. Review the design document
+2. Determine which component you wish to work on
+3. Create an issue on github detailing what component you are implement, add rest of team to the issue, assign it to yourself.
+4. Create a new branch - the name of the branch should be the issue number like "is_xxx"
+5. Work on the implementation (in your seperate branch)
+6. Do a pull request
+7. Everyone in the team needs to approve the pull request
