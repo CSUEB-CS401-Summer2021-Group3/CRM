@@ -1,10 +1,14 @@
 package edu.cs401group3.crm.server;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import edu.cs401group3.crm.server.clienthandler.ClientHandler;
@@ -54,6 +58,18 @@ class Server {
 			catch (IOException e) {
 				System.out.println("Failed to close socket ... oh well");
 			}
+		}
+	}
+	
+	private void checkServerStorage() {
+		Path path = Paths.get(".crm");
+		try {			
+			if (! Files.exists(path)) {
+				new File(".crm").mkdirs();
+				new File(".crm/Users.db").createNewFile();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
