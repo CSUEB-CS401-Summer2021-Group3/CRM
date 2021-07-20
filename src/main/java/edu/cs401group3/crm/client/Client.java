@@ -38,8 +38,11 @@ public class Client {
     	AuthenticationMessage authMessage;
         scanner = new Scanner(System.in);
         
-        user = "Dummy";
-        password = "DummyPass";
+        System.out.println("Username: ");
+        user = scanner.nextLine();
+
+        System.out.println("Password: ");
+        password = scanner.nextLine();
         
         System.out.print("Enter server address [localhost]: ");
         this.address = scanner.nextLine();
@@ -80,7 +83,6 @@ public class Client {
     public void session() throws IOException {
     	Socket sock = null;
         Message msg;
-        String message = "";
         boolean is_logged_in = false;
 
         sock = login();
@@ -99,7 +101,6 @@ public class Client {
                 // Output (write) data to server
                 System.out.print("> ");
                 String messageType = scanner.nextLine();
-//                message = scanner.nextLine();
 
                 if (messageType.equals("command")) {
                 	msg = new CommandMessage(null);
@@ -112,7 +113,7 @@ public class Client {
                 	
                 	System.out.println("Value: ");
                 	String value = scanner.nextLine();
-                	
+
                 	// Should be a User class but for now use a string
                 	data.put("user", user);
                 	data.put(key, value);
@@ -145,12 +146,10 @@ public class Client {
     }
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Client client = new Client();
 		try {
 			client.session();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
