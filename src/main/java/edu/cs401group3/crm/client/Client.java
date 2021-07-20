@@ -8,6 +8,8 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
@@ -21,6 +23,9 @@ public class Client {
     private String port;
     private Socket socket;
     private Scanner scanner;
+    
+    private String user;
+    private String password;
 
     OutputStream outputStream;
     ObjectOutput objectOutputStream;
@@ -33,8 +38,8 @@ public class Client {
     	AuthenticationMessage authMessage;
         scanner = new Scanner(System.in);
         
-        String user = "Dummy";
-        String password = "DummyPass";
+        user = "Dummy";
+        password = "DummyPass";
         
         System.out.print("Enter server address [localhost]: ");
         this.address = scanner.nextLine();
@@ -101,6 +106,20 @@ public class Client {
                 }
                 else if (messageType.equals("storage")) {
                 	msg = new StorageMessage();
+                	Map<String, String> data = new HashMap<String, String>();
+                	System.out.println("Key: ");
+                	String key = scanner.nextLine();
+                	
+                	System.out.println("Value: ");
+                	String value = scanner.nextLine();
+                	
+                	// Should be a User class but for now use a string
+                	data.put("user", user);
+                	data.put(key, value);
+                	msg.setContent(data);
+                }
+                else if (messageType.equals("logout")) {
+                	break;
                 }
                 else {
                 	msg = new Message();
@@ -134,7 +153,5 @@ public class Client {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-
 }
