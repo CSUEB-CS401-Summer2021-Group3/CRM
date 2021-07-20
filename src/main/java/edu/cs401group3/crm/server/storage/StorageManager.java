@@ -38,7 +38,6 @@ public class StorageManager implements Runnable {
 				String data = "";
 				for (Map.Entry<String, String> entry : msg.getContent().entrySet()) {
 					data += entry.getKey() + ":" + entry.getValue().toString() + "\n";
-//					System.out.println(entry.getKey() + ":" + entry.getValue().toString());
 				}
 				String user = msg.getContent().get("user");
 				checkUserFolder(user);

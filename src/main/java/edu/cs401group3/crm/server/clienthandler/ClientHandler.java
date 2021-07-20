@@ -10,24 +10,20 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.HashMap;
 import java.util.Map;
 
 import edu.cs401group3.crm.common.Log;
-import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.Message;
+import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.StorageMessage;
-import edu.cs401group3.crm.server.storage.StorageManager;
 import edu.cs401group3.crm.server.storage.StorageQueue;
 
 public class ClientHandler implements Runnable {
 	private final Socket clientSocket;
 	private StorageQueue queue = StorageQueue.getInstance();
-	private StorageManager storManager;
 	
 	public ClientHandler(Socket socket) {
 		this.clientSocket = socket;
-//		this.storManager = new StorageManager();
 	}
 	
 	public void run() {
@@ -49,9 +45,7 @@ public class ClientHandler implements Runnable {
 						AuthenticationMessage authMessage = (AuthenticationMessage) msg;
 						is_logged_in = true;
 						authMessage.setStatus("success");
-						objectOutputStream.writeObject(authMessage);
-						
-//						System.out.println("Client: " + clientSocket.getInetAddress().getHostAddress() + " logged in: ");
+						objectOutputStream.writeObject(authMessage);						
 						Log.LOGGER.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " logged in: ");
 
 						continue;
@@ -69,13 +63,11 @@ public class ClientHandler implements Runnable {
 						continue;
 
 					// Begin processing
-//					System.out.println("Client: " + clientSocket.getInetAddress().getHostAddress() + " message: " + msg.getType());
 					Log.LOGGER.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " message: " + msg.getType());
 					
 					if (msg.getType().equals("storage")) {		
 						System.out.println("New storage message");
 						for (Map.Entry<String, String> entry : msg.getContent().entrySet()) {
-//						    System.out.println(entry.getKey() + ":" + entry.getValue().toString());
 						    Log.LOGGER.info(entry.getKey() + ":" + entry.getValue().toString());
 						}
 						queue.enqueue((StorageMessage) msg);
