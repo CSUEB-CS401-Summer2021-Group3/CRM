@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 import edu.cs401group3.crm.server.clienthandler.ClientHandler;
+import edu.cs401group3.crm.server.storage.StorageManager;
 import edu.cs401group3.crm.common.Log;
 
 class Server {
@@ -41,9 +42,13 @@ class Server {
 		
 		try {
 			server.setReuseAddress(true);
+			checkServerStorage();
+			StorageManager storageManager = new StorageManager();
+			new Thread(storageManager).start();
 			while (true) {
 				Socket client = server.accept();				
 				System.out.println("New client connected: " + client.getInetAddress().getHostAddress());
+				log.LOGGER.info("New client connected: " + client.getInetAddress().getHostAddress());
 				ClientHandler clientConnection = new ClientHandler(client);
 				new Thread(clientConnection).start();				
 			}
@@ -65,7 +70,7 @@ class Server {
 		Path path = Paths.get(".crm");
 		try {			
 			if (! Files.exists(path)) {
-				new File(".crm").mkdirs();
+				boolean bool = new File(".crm").mkdirs();
 				new File(".crm/Users.db").createNewFile();
 			}
 		} catch (IOException e) {
