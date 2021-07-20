@@ -1,17 +1,36 @@
 package edu.cs401group3.crm.common.message;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public interface Message {	
-	String getType();
+public class Message implements MessageInterface, Serializable{
+	private final String type = "generic";
+	private String status;
+	private Map<String, String> content;
 	
-	void setStatus(String status);
-	
-	String getStatus();
-	
-	void setContent(Map<String, String> content);
-	
-	Map<String, String> getContent();
-	
-	
+	@Override
+	public String getType() {
+		return type;
+	}
+
+	@Override
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@Override
+	public String getStatus() {
+		return status;
+	}
+
+	@Override
+	public void setContent(Map<String, String> content) {
+		this.content = content;	
+	}
+
+	@Override
+	public Map<String, String> getContent() {
+		return content;
+	}
+
 }

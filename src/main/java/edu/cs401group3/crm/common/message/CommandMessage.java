@@ -1,8 +1,9 @@
 package edu.cs401group3.crm.common.message;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class CommandMessage implements Message {
+public class CommandMessage extends Message implements Serializable {
 	private final String type = "command";
 	private String status;
 	private Map<String, String> payload;

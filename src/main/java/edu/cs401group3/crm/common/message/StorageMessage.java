@@ -1,10 +1,11 @@
 package edu.cs401group3.crm.common.message;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
 
-public class StorageMessage implements Message, Comparator<StorageMessage> {
+public class StorageMessage extends Message implements MessageInterface, Comparator<StorageMessage>, Comparable<StorageMessage>, Serializable {
 	private final String type = "storage";
 	private String status;
 	private Date timestamp;
@@ -61,6 +62,18 @@ public class StorageMessage implements Message, Comparator<StorageMessage> {
 	
 	public Date getTimestamp() {
 		return timestamp;
+	}
+
+	@Override
+	public int compareTo(StorageMessage o) {
+//		if (this.getTimestamp().before(o.getTimestamp())) {
+//            return -1;
+//        } else if (this.getTimestamp().after(o.getTimestamp())) {
+//            return 1;
+//        } else {
+//            return 0;
+//        }
+		return this.getTimestamp().compareTo(o.getTimestamp());
 	}
 
 }
