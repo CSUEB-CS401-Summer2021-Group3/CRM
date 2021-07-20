@@ -19,8 +19,11 @@ Change directory to the base of the github repo (Where all the folders are liste
 Windows
 
 Using command line:
-```javac -d bin -cp .\src\main\java\edu\cs401group3\crm\client\Client.java .\src\main\java\edu\cs401group3\crm\common\Log.java .\src\main\java\edu\cs401group3\crm\common\message\AuthenticationMessage.java .\src\main\java\edu\cs401group3\crm\common\message\CommandMessage.java .\src\main\java\edu\cs401group3\crm\common\message\Message.java .\src\main\java\edu\cs401group3\crm\common\message\MessageInterface.java .\src\main\java\edu\cs401group3\crm\common\message\StorageMessage.java .\src\main\java\edu\cs401group3\crm\server\Server.java .\src\main\java\edu\cs401group3\crm\server\clienthandler\ClientHandler.java .\src\main\java\edu\cs401group3\crm\server\storage\StorageManager.java .\src\main\java\edu\cs401group3\crm\server\storage\StorageQueue.java
+
 ```
+javac -d bin -cp .\src\main\java\edu\cs401group3\crm\client\Client.java .\src\main\java\edu\cs401group3\crm\common\Log.java .\src\main\java\edu\cs401group3\crm\common\message\AuthenticationMessage.java .\src\main\java\edu\cs401group3\crm\common\message\CommandMessage.java .\src\main\java\edu\cs401group3\crm\common\message\Message.java .\src\main\java\edu\cs401group3\crm\common\message\MessageInterface.java .\src\main\java\edu\cs401group3\crm\common\message\StorageMessage.java .\src\main\java\edu\cs401group3\crm\server\Server.java .\src\main\java\edu\cs401group3\crm\server\clienthandler\ClientHandler.java .\src\main\java\edu\cs401group3\crm\server\storage\StorageManager.java .\src\main\java\edu\cs401group3\crm\server\storage\StorageQueue.java
+```
+
 This builds all the current Java classes
 
 (Need to setup build configuration)
