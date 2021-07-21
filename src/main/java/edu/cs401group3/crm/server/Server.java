@@ -14,6 +14,7 @@ import java.util.Properties;
 import edu.cs401group3.crm.server.clienthandler.ClientHandler;
 import edu.cs401group3.crm.server.storage.StorageManager;
 import edu.cs401group3.crm.common.Log;
+import edu.cs401group3.crm.common.SHA256;
 
 class Server {
 	private final int port;

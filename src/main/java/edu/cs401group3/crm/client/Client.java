@@ -11,12 +11,15 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.*;
+import java.security.*;
 
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.CommandMessage;
 import edu.cs401group3.crm.common.message.Message;
 import edu.cs401group3.crm.common.message.StorageMessage;
 import edu.cs401group3.crm.server.storage.StorageManager;
+import edu.cs401group3.crm.common.SHA256;
 
 public class Client {
     private String address;
@@ -26,6 +29,8 @@ public class Client {
     
     private String user;
     private String password;
+    private String pws_hashed;//password with salt hashed
+    private String salt;
 
     OutputStream outputStream;
     ObjectOutput objectOutputStream;
@@ -63,7 +68,10 @@ public class Client {
             inputStream = socket.getInputStream();
             objectInputStream = new ObjectInputStream(inputStream);
             
-            authMessage = new AuthenticationMessage(user, password);
+            //Haven't finished this part getsalt
+            
+            pws_hashed=new SHA256(password+salt).getSHA();
+            authMessage = new AuthenticationMessage(user, pws_hashed);
             objectOutputStream.writeObject(authMessage);
             Message reply = (Message) objectInputStream.readObject();
             
@@ -79,6 +87,8 @@ public class Client {
         System.out.println("Connected to " + address + ":" + port);
         return socket;
     }
+    
+	
     
     public void session() throws IOException {
     	Socket sock = null;
@@ -145,12 +155,17 @@ public class Client {
         }
     }
 
+
 	public static void main(String[] args) {
 		Client client = new Client();
+
 		try {
 			client.session();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		client.login();
+
 	}
 }
