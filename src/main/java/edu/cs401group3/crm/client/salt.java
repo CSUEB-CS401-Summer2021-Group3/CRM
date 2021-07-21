@@ -19,8 +19,4 @@ public class salt {
     public String getsalt() {
     	return salt;
     }
-    public static void main(String[] args) {
-    	Salt();
-    	
-    }
 }

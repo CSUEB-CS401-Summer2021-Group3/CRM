@@ -27,7 +27,9 @@ public class Client {
     
     private String user;
     private String password;
-
+    private String pws_hashed;// password with salt hashed
+    private String salt;
+    
     OutputStream outputStream;
     ObjectOutput objectOutputStream;
     InputStream inputStream;
@@ -64,7 +66,11 @@ public class Client {
             inputStream = socket.getInputStream();
             objectInputStream = new ObjectInputStream(inputStream);
             
-            authMessage = new AuthenticationMessage(user, password);
+            //need a method pull the user's salt
+            
+            pws_hashed = new SHA256(password+salt).getSHA();
+            
+            authMessage = new AuthenticationMessage(user, pws_hashed);
             objectOutputStream.writeObject(authMessage);
             Message reply = (Message) objectInputStream.readObject();
             

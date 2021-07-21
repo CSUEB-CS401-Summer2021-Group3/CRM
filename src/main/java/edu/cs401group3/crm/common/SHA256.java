@@ -8,9 +8,9 @@ public class SHA256 {
 	private String ciphertext;
 	public SHA256() {}
 	public SHA256(String plaintext) {
-		ciphertext=getSHA256(plaintext);		
+		getSHA256(plaintext);		
 	}
-	public static String getSHA256(String str){
+	private void getSHA256(String str){
 	      MessageDigest messageDigest;
 	     String encodestr = "";
 	     try {
@@ -22,7 +22,7 @@ public class SHA256 {
 	     } catch (UnsupportedEncodingException e) {
 	      e.printStackTrace();
 	     }
-	     return encodestr;
+	     ciphertext= encodestr;
 	    }
 	
 	private static String byte2Hex(byte[] bytes){
@@ -37,4 +37,7 @@ public class SHA256 {
 	     }
 	     return stringBuffer.toString();
 	    }
+	public String getSHA() {
+		return ciphertext;
+	}
 }
