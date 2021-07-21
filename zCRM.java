@@ -14,18 +14,10 @@ import java.awt.event.*;
 
 public class zCRM {
 		
-//	private JFrame frame;
-//	private JPanel p;
-//	JList dvdJList;
-//	JScrollPane dvdListPane;
-//	String titleText = "Title: ";
-//	String ratingText = "Rating: ";
-//	String runtimeText = "Runtime: ";
-//	JLabel titleLabel, ratingLabel, runtimeLabel;
-//	JLabel dvdImage;
+	private static JFrame frame;
 		
 	public static void main(String[] args) {
-		JFrame frame = new JFrame("CRM GUI");
+		frame = new JFrame("CRM GUI");
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		        
 		//frame.setLayout(new FlowLayout());
@@ -38,24 +30,13 @@ public class zCRM {
 		    
 		    
 		Box buttonBox = Box.createVerticalBox();
-		JButton addButton = new JButton("Add New DVD");
-		addButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-						 
-				} catch (Exception error) {
-				}
-			}
-		});
-		buttonBox.add(addButton);
-		buttonBox.add(Box.createVerticalStrut(10));
 			 
 
 		JButton createButton = new JButton("Create a User");
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-						 
+						 createUser();
 				} catch (Exception error) {
 				}
 			}
@@ -67,7 +48,7 @@ public class zCRM {
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-						 
+						 editUser();
 				} catch (Exception error) {
 				}
 			}
@@ -79,19 +60,36 @@ public class zCRM {
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-						 
+						 editUser();
 				} catch (Exception error) {
 				}
 			}
 		});
-		}
-
 		infoBox.add(deleteButton);
 		buttonBox.add(Box.createVerticalStrut(10));
+		
 		p.add(infoBox);
 			
-		p.add(buttonBox);
+		//p.add(buttonBox);
 		frame.setVisible(true);
 			
 	}	
+	
+	private static void createUser() {
+		
+		String userName = "", password = "";
+		
+		userName = JOptionPane.showInputDialog(frame, "Enter Username");
+		password = JOptionPane.showInputDialog(frame, "Enter Password");
+		
+	}
+	
+	private static void editUser() {
+		
+	}
+	
+	private static void deleteUser() {
+		
+	}
 }
+	
