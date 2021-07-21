@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class saltTest {
-
+	private salt test= new salt();
 	@Test
 	void test() {
-		JunitTesting test = new JunitTesting();
+		System.out.println(test.getsalt());
 		
 	}
 

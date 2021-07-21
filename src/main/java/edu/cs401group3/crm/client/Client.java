@@ -17,6 +17,7 @@ import edu.cs401group3.crm.common.message.CommandMessage;
 import edu.cs401group3.crm.common.message.Message;
 import edu.cs401group3.crm.common.message.StorageMessage;
 import edu.cs401group3.crm.server.storage.StorageManager;
+import edu.cs401group3.crm.common.SHA256;
 
 public class Client {
     private String address;
