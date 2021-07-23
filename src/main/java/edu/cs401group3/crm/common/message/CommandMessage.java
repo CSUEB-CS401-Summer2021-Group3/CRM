@@ -40,4 +40,12 @@ public class CommandMessage extends Message implements Serializable {
 	public Map<String, Object> getContent() {
 		return content;
 	}
+	
+	public Commands getCommand() {
+		return command;
+	}
+	
+	public String getCommandName() {
+		return command.toString();
+	}
 }
