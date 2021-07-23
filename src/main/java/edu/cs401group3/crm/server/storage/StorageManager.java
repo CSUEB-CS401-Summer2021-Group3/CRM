@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
+import edu.cs401group3.crm.commands.user.User;
 import edu.cs401group3.crm.common.Log;
 import edu.cs401group3.crm.common.message.StorageMessage;
 
@@ -25,7 +26,7 @@ public class StorageManager implements Runnable {
 
 	@Override
 	public void run() {
-//		System.out.println("Starting storage checker!");
+		log.LOGGER.info("Starting storage checker!");
 		while (true) {
 			StorageMessage msg = null;
 			try {
@@ -36,11 +37,12 @@ public class StorageManager implements Runnable {
 			if (msg != null) {
 				log.LOGGER.info("Non-null message!");
 				String data = "";
-				for (Map.Entry<String, String> entry : msg.getContent().entrySet()) {
+				for (Map.Entry<String, Object> entry : msg.getContent().entrySet()) {
 					data += entry.getKey() + ":" + entry.getValue().toString() + "\n";
 				}
-				String user = msg.getContent().get("user");
-				checkUserFolder(user);
+				User user = (User) msg.getContent().get("user");
+				String username = user.getName();
+				checkUserFolder(username);
 					
 				try {
 					FileWriter fw = new FileWriter(".crm/" + user + "/" + "data.txt", true);
