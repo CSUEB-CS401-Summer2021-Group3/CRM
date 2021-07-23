@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class Message implements MessageInterface, Serializable{
 	private final String type = "generic";
-	private String status;
-	private Map<String, Object> content;
+	protected String status;
+	protected Map<String, Object> content;
 	
 	@Override
 	public String getType() {
