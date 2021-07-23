@@ -6,9 +6,9 @@ import java.util.Map;
 public class CommandMessage extends Message implements Serializable {
 	private final String type = "command";
 	private String status;
-	private Map<String, String> payload;
+	private Map<String, Object> payload;
 	
-	public CommandMessage(Map<String, String> payload) {
+	public CommandMessage(Map<String, Object> payload) {
 		this.payload= payload;
 		status = "pending";
 	}
@@ -29,12 +29,12 @@ public class CommandMessage extends Message implements Serializable {
 	}
 
 	@Override
-	public void setContent(Map<String, String> content) {
+	public void setContent(Map<String, Object> content) {
 		this.payload = content;
 	}
 
 	@Override
-	public Map<String, String> getContent() {
+	public Map<String, Object> getContent() {
 		return payload;
 	}
 

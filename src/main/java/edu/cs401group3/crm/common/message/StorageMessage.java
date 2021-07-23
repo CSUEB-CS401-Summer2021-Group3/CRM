@@ -9,14 +9,14 @@ public class StorageMessage extends Message implements MessageInterface, Compara
 	private final String type = "storage";
 	private String status;
 	private Date timestamp;
-	private Map<String, String> payload;
+	private Map<String, Object> payload;
 	
 	public StorageMessage() {
 		status = "pending";
 		timestamp = new Date();
 	}
 	
-	public StorageMessage(Map<String, String> payload) {
+	public StorageMessage(Map<String, Object> payload) {
 		this.payload = payload;
 		timestamp = new Date();
 		status = "pending";
@@ -50,13 +50,13 @@ public class StorageMessage extends Message implements MessageInterface, Compara
 	}
 
 	@Override
-	public void setContent(Map<String, String> content) {
+	public void setContent(Map<String, Object> content) {
 		this.payload = content;
 		
 	}
 
 	@Override
-	public Map<String, String> getContent() {
+	public Map<String, Object> getContent() {
 		return payload;
 	}
 	

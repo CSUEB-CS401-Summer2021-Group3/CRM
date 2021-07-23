@@ -6,7 +6,7 @@ import java.util.Map;
 public class Message implements MessageInterface, Serializable{
 	private final String type = "generic";
 	private String status;
-	private Map<String, String> content;
+	private Map<String, Object> content;
 	
 	@Override
 	public String getType() {
@@ -24,12 +24,12 @@ public class Message implements MessageInterface, Serializable{
 	}
 
 	@Override
-	public void setContent(Map<String, String> content) {
+	public void setContent(Map<String, Object> content) {
 		this.content = content;	
 	}
 
 	@Override
-	public Map<String, String> getContent() {
+	public Map<String, Object> getContent() {
 		return content;
 	}
 

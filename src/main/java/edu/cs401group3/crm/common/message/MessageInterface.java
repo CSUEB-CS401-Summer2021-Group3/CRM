@@ -9,9 +9,9 @@ public interface MessageInterface {
 	
 	String getStatus();
 	
-	void setContent(Map<String, String> content);
+	void setContent(Map<String, Object> content);
 	
-	Map<String, String> getContent();
+	Map<String, Object> getContent();
 	
 	
 }
