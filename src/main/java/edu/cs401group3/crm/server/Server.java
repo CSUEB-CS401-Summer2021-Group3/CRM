@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Properties;
 
 import edu.cs401group3.crm.server.clienthandler.ClientHandler;
@@ -72,7 +73,17 @@ class Server {
 			if (! Files.exists(path)) {
 				boolean bool = new File(".crm").mkdirs();
 				new File(".crm/Users.db").createNewFile();
+				createAdmin();
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void createAdmin() {
+		Path path = Paths.get(".crm/Users.db");
+		try {
+			Files.write(Paths.get(path.toString()), "Admin".getBytes(), StandardOpenOption.APPEND);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
