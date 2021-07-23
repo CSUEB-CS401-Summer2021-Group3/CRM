@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Map;
 
+import edu.cs401group3.crm.commands.user.User;
 import edu.cs401group3.crm.common.Log;
 import edu.cs401group3.crm.common.message.Message;
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
@@ -41,10 +42,13 @@ public class ClientHandler implements Runnable {
                     Message msg = (Message) objectInputStream.readObject();
                     
 					// First check if we get a login request
+                    // Should be done by some sort of authentication manager
 					if (msg.getType().equals("authentication")) {
 						AuthenticationMessage authMessage = (AuthenticationMessage) msg;
 						is_logged_in = true;
-						authMessage.setStatus("success");
+						authMessage.setStatus("success"); //set message status
+						User user = (User) authMessage.getContent().get("user"); //set inner user object status to logged in
+						user.setStatus("logged in");
 						objectOutputStream.writeObject(authMessage);						
 						Log.LOGGER.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " logged in: ");
 
@@ -67,10 +71,23 @@ public class ClientHandler implements Runnable {
 					
 					if (msg.getType().equals("storage")) {		
 						System.out.println("New storage message");
-						for (Map.Entry<String, String> entry : msg.getContent().entrySet()) {
-						    Log.LOGGER.info(entry.getKey() + ":" + entry.getValue().toString());
+						String key = "";
+						String value = "";
+						try {
+							
+							for (Map.Entry<String, Object> entry : msg.getContent().entrySet()) {
+								key = entry.getKey();
+								value = entry.getValue().toString();
+								Log.LOGGER.info(key + ":" + value);
+							}
+						} catch (NullPointerException e) {
+							Log.LOGGER.info("key -- " + key);
+							e.printStackTrace();
 						}
 						queue.enqueue((StorageMessage) msg);
+					}
+					else if (msg.getType().equals("command")) {
+						System.out.println("Command!");
 					}
 					
 					Message reply = (Message) msg;
