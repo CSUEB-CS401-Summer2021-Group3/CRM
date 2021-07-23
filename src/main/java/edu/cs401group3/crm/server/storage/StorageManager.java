@@ -37,12 +37,13 @@ public class StorageManager implements Runnable {
 			if (msg != null) {
 				log.LOGGER.info("Non-null message!");
 				String data = "";
-				for (Map.Entry<String, Object> entry : msg.getContent().entrySet()) {
-					data += entry.getKey() + ":" + entry.getValue().toString() + "\n";
-				}
+//				for (Map.Entry<String, Object> entry : msg.getContent().entrySet()) {
+//					data += entry.getKey() + ":" + entry.getValue().toString() + "\n";
+//				}
 				User user = (User) msg.getContent().get("user");
-				String username = user.getName();
-				checkUserFolder(username);
+				data = user.getData();
+//				String username = user.getName();
+//				checkUserFolder(username);
 					
 				try {
 					FileWriter fw = new FileWriter(".crm/" + user + "/" + "data.txt", true);
@@ -60,20 +61,20 @@ public class StorageManager implements Runnable {
 		}
 	}
 
-	public void checkUserFolder(String user) {
-		Path path = Paths.get(".crm/" + user);
-		try {
-			if (!Files.exists(path)) {
-				log.LOGGER.info("Creating .crm/" + user + " folder");
-				boolean bool = new File(".crm/" + user).mkdirs();
-				log.LOGGER.info("USER DIR MADE?: " + bool);
-				new File(".crm/" + user + "/" + "data.txt").createNewFile();
-			} 
-			else {
-				log.LOGGER.info("File: .crm/" + user + " exists");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	public void checkUserFolder(String user) {
+//		Path path = Paths.get(".crm/" + user);
+//		try {
+//			if (!Files.exists(path)) {
+//				log.LOGGER.info("Creating .crm/" + user + " folder");
+//				boolean bool = new File(".crm/" + user).mkdirs();
+//				log.LOGGER.info("USER DIR MADE?: " + bool);
+//				new File(".crm/" + user + "/" + "data.txt").createNewFile();
+//			} 
+//			else {
+//				log.LOGGER.info("File: .crm/" + user + " exists");
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }
