@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import edu.cs401group3.crm.commands.Commands;
 import edu.cs401group3.crm.commands.user.User;
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.CommandMessage;
@@ -34,8 +35,12 @@ public class Client {
     ObjectOutput objectOutputStream;
     InputStream inputStream;
     ObjectInput objectInputStream;
+    Map<String, Object> dummyData;
 
-    public Client() {}
+    public Client() {
+    	dummyData = new HashMap<String, Object>();
+    	dummyData.put("thiskey", "hasvalue");
+    }
     
     private Socket login() {
     	AuthenticationMessage authMessage;
@@ -71,6 +76,7 @@ public class Client {
             
             authMessage = new AuthenticationMessage(username, password);
             authMessage.getContent().put("user", user); // Add user object to message
+            System.out.println("Connecting to server...");
             objectOutputStream.writeObject(authMessage);
             Message reply = (Message) objectInputStream.readObject();
             
@@ -78,6 +84,9 @@ public class Client {
             	System.out.println("Logged in!");
             	user = (User) reply.getContent().get("user");
             	System.out.println("Updated user status: " + user.getStatus());
+            } 
+            else {
+            	System.out.println("Not successful login");
             }
                         
         }
@@ -112,7 +121,13 @@ public class Client {
                 String messageType = scanner.nextLine();
 
                 if (messageType.equals("command")) {
-                	msg = new CommandMessage(null);
+                	Commands commands = testMenu();
+                	msg = createCommand(commands, dummyData);
+                	
+                	if (commands == Commands.ADD_USER) {
+                		User newUser = createUser();
+                		msg.getContent().put("user", newUser);
+                	}
                 }
                 else if (messageType.equals("storage")) {
                 	msg = new StorageMessage();
@@ -155,9 +170,22 @@ public class Client {
         }
     }
     
-    public CommandMessage createMessage(String command, Map<String, Object> data) {
+    public CommandMessage createCommand(Commands command, Map<String, Object> data) {
     	data.put("user", user);
-    	return new CommandMessage(data);
+    	return new CommandMessage(command, data);
+    }
+    
+    public Commands testMenu() {
+        scanner = new Scanner(System.in);
+    	System.out.println("0: Add User\t1: Edit User\t2: Delete User"); 
+    	return Commands.values()[scanner.nextInt()];
+    	
+    }
+    
+    public User createUser() {
+    	scanner = new Scanner(System.in);
+        System.out.println("Enter user name: ");
+        return new User(scanner.nextLine());
     }
 
 	public static void main(String[] args) {
