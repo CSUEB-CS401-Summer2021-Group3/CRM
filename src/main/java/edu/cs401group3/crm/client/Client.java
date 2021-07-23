@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import edu.cs401group3.crm.commands.user.User;
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.CommandMessage;
 import edu.cs401group3.crm.common.message.Message;
@@ -24,8 +25,10 @@ public class Client {
     private Socket socket;
     private Scanner scanner;
     
-    private String user;
+    private String username;
     private String password;
+    
+    private User user;
 
     OutputStream outputStream;
     ObjectOutput objectOutputStream;
@@ -39,10 +42,13 @@ public class Client {
         scanner = new Scanner(System.in);
         
         System.out.println("Username: ");
-        user = scanner.nextLine();
+        username = scanner.nextLine();
 
         System.out.println("Password: ");
         password = scanner.nextLine();
+        
+        user = new User(username);
+        System.out.println("Current user status: " + user.getStatus());
         
         System.out.print("Enter server address [localhost]: ");
         this.address = scanner.nextLine();
@@ -63,12 +69,15 @@ public class Client {
             inputStream = socket.getInputStream();
             objectInputStream = new ObjectInputStream(inputStream);
             
-            authMessage = new AuthenticationMessage(user, password);
+            authMessage = new AuthenticationMessage(username, password);
+            authMessage.getContent().put("user", user); // Add user object to message
             objectOutputStream.writeObject(authMessage);
             Message reply = (Message) objectInputStream.readObject();
             
             if (reply.getStatus().equals("success")) {
             	System.out.println("Logged in!");
+            	user = (User) reply.getContent().get("user");
+            	System.out.println("Updated user status: " + user.getStatus());
             }
                         
         }
@@ -107,7 +116,7 @@ public class Client {
                 }
                 else if (messageType.equals("storage")) {
                 	msg = new StorageMessage();
-                	Map<String, String> data = new HashMap<String, String>();
+                	Map<String, Object> data = new HashMap<String, Object>();
                 	System.out.println("Key: ");
                 	String key = scanner.nextLine();
                 	
@@ -118,6 +127,7 @@ public class Client {
                 	data.put("user", user);
                 	data.put(key, value);
                 	msg.setContent(data);
+                	System.out.println("Just added entry: " + key + " - " + msg.getContent().get(key));
                 }
                 else if (messageType.equals("logout")) {
                 	break;
@@ -143,6 +153,11 @@ public class Client {
             socket.close();
             scanner.close();
         }
+    }
+    
+    public CommandMessage createMessage(String command, Map<String, Object> data) {
+    	data.put("user", user);
+    	return new CommandMessage(data);
     }
 
 	public static void main(String[] args) {
