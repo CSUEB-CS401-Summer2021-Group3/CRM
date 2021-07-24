@@ -17,6 +17,7 @@ import edu.cs401group3.crm.common.message.Message;
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.StorageMessage;
 import edu.cs401group3.crm.server.storage.StorageQueue;
+import edu.cs401group3.crm.common.SHA256;
 
 public class ClientHandler implements Runnable {
 	private final Socket clientSocket;
@@ -24,6 +25,19 @@ public class ClientHandler implements Runnable {
 	
 	public ClientHandler(Socket socket) {
 		this.clientSocket = socket;
+	}
+	
+	private boolean auth(AuthenticationMessage msg) {
+		String uname,upws_hashed;
+		Map<String, String> content;
+		content=msg.getContent();
+		uname=content.get("user");
+		upws_hashed=content.get("password");
+		//user.getsalt();
+		//user.getpassword();
+		//SHA256()
+		//if same return true;
+		return true;
 	}
 	
 	public void run() {
@@ -43,11 +57,17 @@ public class ClientHandler implements Runnable {
 					// First check if we get a login request
 					if (msg.getType().equals("authentication")) {
 						AuthenticationMessage authMessage = (AuthenticationMessage) msg;
-						is_logged_in = true;
-						authMessage.setStatus("success");
-						objectOutputStream.writeObject(authMessage);						
-						Log.LOGGER.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " logged in: ");
-
+						if(auth(authMessage)) {
+							is_logged_in = true;
+							authMessage.setStatus("success");
+							objectOutputStream.writeObject(authMessage);						
+							Log.LOGGER.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " logged in: ");
+						}
+						else {
+							authMessage.setStatus("Failed");
+							objectOutputStream.writeObject(authMessage);
+						}
+																		
 						continue;
 					}
 //					else if (msg.getType().equals("logout")) {

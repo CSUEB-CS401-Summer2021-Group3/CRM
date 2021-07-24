@@ -9,10 +9,10 @@ public class AuthenticationMessage extends Message implements Serializable{
 	private String status;
 	Map<String, String> credentials;
 	
-	public AuthenticationMessage(String user, String password) {
+	public AuthenticationMessage(String user, String pws_hashed) {
 		credentials = new HashMap<String, String>();
 		credentials.put("user", user);
-		credentials.put("password", password);
+		credentials.put("pws_hashed", pws_hashed);
 		status = "pending";
 	}
 	
