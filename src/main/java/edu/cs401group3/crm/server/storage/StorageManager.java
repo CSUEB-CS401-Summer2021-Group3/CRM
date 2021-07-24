@@ -8,24 +8,25 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import edu.cs401group3.crm.common.Log;
+import edu.cs401group3.crm.commands.user.User;
 import edu.cs401group3.crm.common.message.StorageMessage;
 
 public class StorageManager implements Runnable {
 
 	private StorageQueue queue = StorageQueue.getInstance();
 	private String directory = ".crm";
-	private Log log = new Log();
-
+	private Logger logger;
 
 	public StorageManager() {
+		logger = Logger.getLogger("CRMServer");
 
 	}
 
 	@Override
 	public void run() {
-//		System.out.println("Starting storage checker!");
+		logger.info("Starting storage checker!");
 		while (true) {
 			StorageMessage msg = null;
 			try {
@@ -34,13 +35,11 @@ public class StorageManager implements Runnable {
 				e.printStackTrace();
 			}
 			if (msg != null) {
-				log.LOGGER.info("Non-null message!");
+				logger.info("Non-null message!");
 				String data = "";
-				for (Map.Entry<String, String> entry : msg.getContent().entrySet()) {
-					data += entry.getKey() + ":" + entry.getValue().toString() + "\n";
-				}
-				String user = msg.getContent().get("user");
-				checkUserFolder(user);
+
+				User user = (User) msg.getContent().get("user");
+				data = user.getData(); // For now we do this until we know exactly the format of the data to save
 					
 				try {
 					FileWriter fw = new FileWriter(".crm/" + user + "/" + "data.txt", true);
@@ -48,30 +47,13 @@ public class StorageManager implements Runnable {
 					bw.write(data);
 					bw.newLine();
 					bw.close();
-					log.LOGGER.info("WROTE SOMETHING!");
+					logger.info("WROTE SOMETHING!");
 					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else {
 			}
-		}
-	}
-
-	public void checkUserFolder(String user) {
-		Path path = Paths.get(".crm/" + user);
-		try {
-			if (!Files.exists(path)) {
-				log.LOGGER.info("Creating .crm/" + user + " folder");
-				boolean bool = new File(".crm/" + user).mkdirs();
-				log.LOGGER.info("USER DIR MADE?: " + bool);
-				new File(".crm/" + user + "/" + "data.txt").createNewFile();
-			} 
-			else {
-				log.LOGGER.info("File: .crm/" + user + " exists");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			else {}
 		}
 	}
 }

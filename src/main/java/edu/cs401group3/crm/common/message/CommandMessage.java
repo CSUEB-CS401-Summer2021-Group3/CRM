@@ -3,13 +3,16 @@ package edu.cs401group3.crm.common.message;
 import java.io.Serializable;
 import java.util.Map;
 
+import edu.cs401group3.crm.commands.Commands;
+
 public class CommandMessage extends Message implements Serializable {
 	private final String type = "command";
 	private String status;
-	private Map<String, String> payload;
+	private Commands command;
 	
-	public CommandMessage(Map<String, String> payload) {
-		this.payload= payload;
+	public CommandMessage(Commands command, Map<String, Object> content) {
+		this.command = command;
+		this.content = content;
 		status = "pending";
 	}
 	
@@ -29,13 +32,20 @@ public class CommandMessage extends Message implements Serializable {
 	}
 
 	@Override
-	public void setContent(Map<String, String> content) {
-		this.payload = content;
+	public void setContent(Map<String, Object> content) {
+		this.content = content;
 	}
 
 	@Override
-	public Map<String, String> getContent() {
-		return payload;
+	public Map<String, Object> getContent() {
+		return content;
 	}
-
+	
+	public Commands getCommand() {
+		return command;
+	}
+	
+	public String getCommandName() {
+		return command.toString();
+	}
 }
