@@ -11,14 +11,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.logging.Logger;
 
-import edu.cs401group3.crm.common.Log;
 import edu.cs401group3.crm.common.message.StorageMessage;
 import edu.cs401group3.crm.server.storage.StorageQueue;
 
 public class UserCommand {
-	private Log log = new Log();
+	private Logger logger;
 	StorageQueue queue = StorageQueue.getInstance();
+	
+	public UserCommand() {
+		logger = Logger.getLogger("CRMServer");
+	}
 	
 	public synchronized void addUser(User user) {
 		Path path = Paths.get(".crm/Users.db");
@@ -92,13 +96,13 @@ public class UserCommand {
 		Path path = Paths.get(".crm/" + username);
 		try {
 			if (!Files.exists(path)) {
-				log.LOGGER.info("Creating .crm/" + username+ " folder");
+				logger.info("Creating .crm/" + username+ " folder");
 				boolean bool = new File(".crm/" + username).mkdirs();
-				log.LOGGER.info("USER DIR MADE?: " + bool);
+				logger.info("USER DIR MADE?: " + bool);
 				new File(".crm/" + user + "/" + "data.txt").createNewFile();
 			} 
 			else {
-				log.LOGGER.info("File: .crm/" + username + " exists");
+				logger.info("File: .crm/" + username + " exists");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

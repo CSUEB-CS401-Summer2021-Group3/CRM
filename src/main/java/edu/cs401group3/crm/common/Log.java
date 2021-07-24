@@ -26,8 +26,4 @@ public class Log {
     	logFile.setFormatter(textFormatter);
         logger.addHandler(logFile);
     }
-    
-//    public void info(String text) {
-//    	LOGGER.info(text);
-//    }
 }

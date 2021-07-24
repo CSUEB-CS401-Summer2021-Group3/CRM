@@ -11,9 +11,11 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import edu.cs401group3.crm.commands.Commands;
 import edu.cs401group3.crm.commands.user.User;
+import edu.cs401group3.crm.common.Log;
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.CommandMessage;
 import edu.cs401group3.crm.common.message.Message;
@@ -36,8 +38,11 @@ public class Client {
     InputStream inputStream;
     ObjectInput objectInputStream;
     Map<String, Object> dummyData;
+    
+	private Logger logger;
 
     public Client() {
+		logger = Logger.getLogger("CRMClient");
     	dummyData = new HashMap<String, Object>();
     	dummyData.put("thiskey", "hasvalue");
     }
@@ -76,17 +81,17 @@ public class Client {
             
             authMessage = new AuthenticationMessage(username, password);
             authMessage.getContent().put("user", user); // Add user object to message
-            System.out.println("Connecting to server...");
+            logger.info("Connecting to server...");
             objectOutputStream.writeObject(authMessage);
             Message reply = (Message) objectInputStream.readObject();
             
             if (reply.getStatus().equals("success")) {
-            	System.out.println("Logged in!");
+            	logger.info("Logged in!");
             	user = (User) reply.getContent().get("user");
-            	System.out.println("Updated user status: " + user.getStatus());
+            	logger.info("Updated user status: " + user.getStatus());
             } 
             else {
-            	System.out.println("Not successful login");
+            	logger.info("Not successful login");
             }
                         
         }
@@ -94,7 +99,7 @@ public class Client {
             e.printStackTrace();
             return null;
         }
-        System.out.println("Connected to " + address + ":" + port);
+        logger.info("Connected to " + address + ":" + port);
         return socket;
     }
     
@@ -107,10 +112,8 @@ public class Client {
         if (sock == null) {
             return;
         }
-
-        System.out.println("Logged in");
+        
         is_logged_in = true;
-
         try {
             scanner = new Scanner(System.in);
 
@@ -132,17 +135,17 @@ public class Client {
                 else if (messageType.equals("storage")) {
                 	msg = new StorageMessage();
                 	Map<String, Object> data = new HashMap<String, Object>();
-                	System.out.println("Key: ");
+                	logger.info("Key: ");
                 	String key = scanner.nextLine();
                 	
-                	System.out.println("Value: ");
+                	logger.info("Value: ");
                 	String value = scanner.nextLine();
 
                 	// Should be a User class but for now use a string
                 	data.put("user", user);
                 	data.put(key, value);
                 	msg.setContent(data);
-                	System.out.println("Just added entry: " + key + " - " + msg.getContent().get(key));
+                	logger.info("Just added entry: " + key + " - " + msg.getContent().get(key));
                 }
                 else if (messageType.equals("logout")) {
                 	break;
@@ -156,7 +159,7 @@ public class Client {
                 // Input (read) data from server
                 msg = (Message) objectInputStream.readObject();
                 if (msg.getStatus().equals("success"))
-                    System.out.println("Server replied: " + msg.getStatus() + "\n");
+                	logger.info("Server replied: " + msg.getStatus() + "\n");
             
             }
         }
@@ -164,7 +167,7 @@ public class Client {
             e.printStackTrace();
         }
         finally {
-            System.out.println("Closing socket");
+        	Log.LOGGER.info("Closing socket");
             socket.close();
             scanner.close();
         }

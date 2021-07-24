@@ -11,10 +11,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import edu.cs401group3.crm.commands.CommandProcessor;
 import edu.cs401group3.crm.commands.user.User;
-import edu.cs401group3.crm.common.Log;
 import edu.cs401group3.crm.common.message.Message;
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.CommandMessage;
@@ -25,8 +25,10 @@ public class ClientHandler implements Runnable {
 	private final Socket clientSocket;
 	private StorageQueue queue = StorageQueue.getInstance();
 	private CommandProcessor commandProcessor;
+	private Logger logger;
 	
 	public ClientHandler(Socket socket) {
+		logger = Logger.getLogger("CRMServer");
 		this.clientSocket = socket;
 		commandProcessor = new CommandProcessor();
 	}
@@ -37,7 +39,7 @@ public class ClientHandler implements Runnable {
 		boolean is_logged_in = false;
     
 		try {
-				System.out.println("Client handler processing new connection");
+				logger.info("Client handler processing new connection");
                 InputStream inputStream = clientSocket.getInputStream();
 				OutputStream outputStream = clientSocket.getOutputStream();
                 ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
@@ -49,28 +51,29 @@ public class ClientHandler implements Runnable {
 					// First check if we get a login request
                     // Should be done by some sort of authentication manager
 					if (msg.getType().equals("authentication")) {
-						System.out.println("Auth message received, validating...");
+						logger.info("Auth message received, validating...");
 						AuthenticationMessage authMessage = (AuthenticationMessage) msg;
 						is_logged_in = true;
 						
-						// check authentication
+						// check authentication here
 						authMessage.setStatus("success"); //set message status
 						
-						System.out.println("Credentials valid");
+						logger.info("Credentials valid");
 						User user = (User) authMessage.getContent().get("user"); //set inner user object status to logged in
 						user.setStatus("logged in");
 						objectOutputStream.writeObject(authMessage);						
-						Log.LOGGER.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " logged in: ");
+						logger.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " logged in: ");
 
 						continue;
 					}
 					else {
 						if (! is_logged_in) {
-							System.out.println("Invalid message received");
-							System.out.println(msg.getType());
+							logger.info("Invalid message received: " + msg.getType());
 							continue;
 						}
 					}
+					
+//					We leave this commented out now since ClientHandler will most likely not handle storage messages					
 //					else if (msg.getType().equals("logout")) {
 //						is_logged_in = false;
 //						msg.setStatus("success");
@@ -84,7 +87,7 @@ public class ClientHandler implements Runnable {
 						continue;
 
 					// Begin processing
-					Log.LOGGER.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " message: " + msg.getType());
+					logger.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " message: " + msg.getType());
 					
 					// Process Storage (This might be removed and handled internally by Command)
 //					if (msg.getType().equals("storage")) {		
@@ -106,10 +109,11 @@ public class ClientHandler implements Runnable {
 //					}
 //					// Process Command
 //					else 
+					
 					if (msg.getType().equals("command")) {
-						System.out.println("Command!");
+						logger.info("Command Message Received");
 						CommandMessage command = (CommandMessage) msg;
-						System.out.println(command.getCommandName());
+						logger.info(command.getCommandName());
 						commandProcessor.processCommand(command);
 					}
 					
