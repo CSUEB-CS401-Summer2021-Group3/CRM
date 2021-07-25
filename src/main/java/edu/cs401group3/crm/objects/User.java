@@ -1,15 +1,22 @@
+package edu.cs401group3.crm.objects;
+
+import edu.cs401group3.crm.common.message.CommandMessage;
+import edu.cs401group3.crm.common.Log;
+
 import java.util.Scanner;
-import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.security.*;
 
 
 // Sales class extends the capability of the Client class.
 public class User extends Client{
 	
 	// Client class has similar variables, here are the new additions. 
-	int id;
-	String role;
-	String salesManager; // Since each client has a manager. 
+	private int id;
+	private String role;
+	private String salesManager; // Since each client has a manager. 
+	private static String internalPasswordSalt; // Temp
 	
 	// Each Sales class should the option to do CRUD applications to their Client list.
 	// Linked List approach...
@@ -47,6 +54,11 @@ public class User extends Client{
 	public void setManagerName(String m) {
 		this.salesManager = m;
 	}
+	public void setInternalPassword(String password){
+		this.internalPasswordSalt = saltPassword(password);
+	}
+
+
 	
 	/**
 	* Mutators for getters, which will return the appropriate Sales user.
@@ -74,6 +86,61 @@ public class User extends Client{
 		return temp;
 	}
 	
+
+	/**
+	* Creates a password hash for the clientPassword in order to interact with the our Authentication model.
+	* @param Pass in password string information, saves updated hash data.
+	* @return No return.
+	*/
+	public static String saltPassword(String CPass) {
+		MessageDigest md;
+		
+		try {
+			// Hash computation
+			// SHA-256 is a secure hash algo
+			md = MessageDigest.getInstance("SHA-256");
+			SecureRandom tempRand = new SecureRandom();
+			
+			byte[] salt = new byte[16];
+			tempRand.nextBytes(salt);
+			// Update on the server-side
+			md.update(salt);
+			byte[] hased = md.digest(CPass.getBytes(StandardCharsets.UTF_8));
+			StringBuilder sb = new StringBuilder();
+			
+			for(byte i : hased)
+				sb.append(String.format("%02x", i));
+				internalPasswordSalt = sb.toString(); // Stores client data
+				return internalPasswordSalt;
+
+		}catch (Exception e) {
+			System.out.println("NOT SUCCESSFUL. TRY AGAIN.");
+		}
+
+		return internalPasswordSalt;
+	
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	// Sales additional functionality. 
 	// Would it require a linked-list approach?
 	
@@ -84,7 +151,10 @@ public class User extends Client{
 	* @param New variable holder must match the return data type. 
 	* @return Returns the appropriate data to the user.
 	*/
-	public void addClient() {
+	public void addClient(){
+		CommandMessage tempCommand;
+		
+
 		
 	}
 	public void editClient() {
