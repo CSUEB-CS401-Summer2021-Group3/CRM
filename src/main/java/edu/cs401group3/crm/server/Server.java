@@ -9,7 +9,9 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import edu.cs401group3.crm.server.clienthandler.ClientHandler;
 import edu.cs401group3.crm.server.storage.StorageManager;
@@ -20,9 +22,10 @@ class Server {
 	private final String defaultPropertyPath = "src/main/resources/server.properties";
 	private boolean server_good;
 	private ServerSocket server;
-	private Log log = new Log();
+	private Logger logger;
 	
 	public Server(int port) {
+		logger = Logger.getLogger("CRMServer");
 		this.port = port;
 		try {
 			server = new ServerSocket(this.port);
@@ -47,8 +50,8 @@ class Server {
 			new Thread(storageManager).start();
 			while (true) {
 				Socket client = server.accept();				
-				System.out.println("New client connected: " + client.getInetAddress().getHostAddress());
-				log.LOGGER.info("New client connected: " + client.getInetAddress().getHostAddress());
+				Log.LOGGER.info("New client connected: " + client.getInetAddress().getHostAddress());
+				Log.LOGGER.info("New client connected: " + client.getInetAddress().getHostAddress());
 				ClientHandler clientConnection = new ClientHandler(client);
 				new Thread(clientConnection).start();				
 			}
@@ -61,7 +64,7 @@ class Server {
 				server.close();				
 			}
 			catch (IOException e) {
-				System.out.println("Failed to close socket ... oh well");
+				Log.LOGGER.info("Failed to close socket ... oh well");
 			}
 		}
 	}
@@ -72,7 +75,17 @@ class Server {
 			if (! Files.exists(path)) {
 				boolean bool = new File(".crm").mkdirs();
 				new File(".crm/Users.db").createNewFile();
+				createAdmin();
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void createAdmin() {
+		Path path = Paths.get(".crm/Users.db");
+		try {
+			Files.write(Paths.get(path.toString()), "Admin".getBytes(), StandardOpenOption.APPEND);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -87,7 +100,7 @@ class Server {
 			port = Integer.parseInt(prop.getProperty("server.port"));
 		}  
 		catch (IOException e) {
-			 System.out.println("server.properties does not exist, using default port 7777");
+			 Log.LOGGER.info("server.properties does not exist, using default port 7777");
 	     }
 		
 		Server server = new Server(port);

@@ -7,16 +7,16 @@ import java.util.Map;
 public class AuthenticationMessage extends Message implements Serializable{
 	private final String type = "authentication";
 	private String status;
-	Map<String, String> credentials;
+	Map<String, Object> credentials;
 	
-	public AuthenticationMessage(String user, String password) {
-		credentials = new HashMap<String, String>();
-		credentials.put("user", user);
+	public AuthenticationMessage(String username, String password) {
+		credentials = new HashMap<String, Object>();
+		credentials.put("username", username);
 		credentials.put("password", password);
 		status = "pending";
 	}
 	
-	public AuthenticationMessage(Map<String, String> credentials) {
+	public AuthenticationMessage(Map<String, Object> credentials) {
 		this.credentials = credentials;
 		status = "pending";
 	}
@@ -37,12 +37,12 @@ public class AuthenticationMessage extends Message implements Serializable{
 	}
 
 	@Override
-	public void setContent(Map<String, String> credentials) {
+	public void setContent(Map<String, Object> credentials) {
 		this.credentials = credentials;
 	}
 
 	@Override
-	public Map<String, String> getContent() {
+	public Map<String, Object> getContent() {
 		return credentials;
 	}
 

@@ -11,19 +11,26 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import edu.cs401group3.crm.common.Log;
+import edu.cs401group3.crm.commands.CommandProcessor;
+import edu.cs401group3.crm.commands.user.User;
 import edu.cs401group3.crm.common.message.Message;
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
+import edu.cs401group3.crm.common.message.CommandMessage;
 import edu.cs401group3.crm.common.message.StorageMessage;
 import edu.cs401group3.crm.server.storage.StorageQueue;
 
 public class ClientHandler implements Runnable {
 	private final Socket clientSocket;
 	private StorageQueue queue = StorageQueue.getInstance();
+	private CommandProcessor commandProcessor;
+	private Logger logger;
 	
 	public ClientHandler(Socket socket) {
+		logger = Logger.getLogger("CRMServer");
 		this.clientSocket = socket;
+		commandProcessor = new CommandProcessor();
 	}
 	
 	public void run() {
@@ -32,6 +39,7 @@ public class ClientHandler implements Runnable {
 		boolean is_logged_in = false;
     
 		try {
+				logger.info("Client handler processing new connection");
                 InputStream inputStream = clientSocket.getInputStream();
 				OutputStream outputStream = clientSocket.getOutputStream();
                 ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
@@ -41,15 +49,31 @@ public class ClientHandler implements Runnable {
                     Message msg = (Message) objectInputStream.readObject();
                     
 					// First check if we get a login request
+                    // Should be done by some sort of authentication manager
 					if (msg.getType().equals("authentication")) {
+						logger.info("Auth message received, validating...");
 						AuthenticationMessage authMessage = (AuthenticationMessage) msg;
 						is_logged_in = true;
-						authMessage.setStatus("success");
+						
+						// check authentication here
+						authMessage.setStatus("success"); //set message status
+						
+						logger.info("Credentials valid");
+						User user = (User) authMessage.getContent().get("user"); //set inner user object status to logged in
+						user.setStatus("logged in");
 						objectOutputStream.writeObject(authMessage);						
-						Log.LOGGER.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " logged in: ");
+						logger.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " logged in: ");
 
 						continue;
 					}
+					else {
+						if (! is_logged_in) {
+							logger.info("Invalid message received: " + msg.getType());
+							continue;
+						}
+					}
+					
+//					We leave this commented out now since ClientHandler will most likely not handle storage messages					
 //					else if (msg.getType().equals("logout")) {
 //						is_logged_in = false;
 //						msg.setStatus("success");
@@ -63,14 +87,34 @@ public class ClientHandler implements Runnable {
 						continue;
 
 					// Begin processing
-					Log.LOGGER.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " message: " + msg.getType());
+					logger.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " message: " + msg.getType());
 					
-					if (msg.getType().equals("storage")) {		
-						System.out.println("New storage message");
-						for (Map.Entry<String, String> entry : msg.getContent().entrySet()) {
-						    Log.LOGGER.info(entry.getKey() + ":" + entry.getValue().toString());
-						}
-						queue.enqueue((StorageMessage) msg);
+					// Process Storage (This might be removed and handled internally by Command)
+//					if (msg.getType().equals("storage")) {		
+//						System.out.println("New storage message");
+//						String key = "";
+//						String value = "";
+//						try {
+//							
+//							for (Map.Entry<String, Object> entry : msg.getContent().entrySet()) {
+//								key = entry.getKey();
+//								value = entry.getValue().toString();
+//								Log.LOGGER.info(key + ":" + value);
+//							}
+//						} catch (NullPointerException e) {
+//							Log.LOGGER.info("key -- " + key);
+//							e.printStackTrace();
+//						}
+//						queue.enqueue((StorageMessage) msg);
+//					}
+//					// Process Command
+//					else 
+					
+					if (msg.getType().equals("command")) {
+						logger.info("Command Message Received");
+						CommandMessage command = (CommandMessage) msg;
+						logger.info(command.getCommandName());
+						commandProcessor.processCommand(command);
 					}
 					
 					Message reply = (Message) msg;
