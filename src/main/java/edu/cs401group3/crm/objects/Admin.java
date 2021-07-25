@@ -1,3 +1,5 @@
+package edu.cs401group3.crm.objects;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.*;
@@ -13,6 +15,8 @@ public class Admin extends Client{
 		// Passed null for the company contact information.
 		super(adminUser, adminPass, adminName, adminPhone, adminEmail, null, null);
 	}
+
+	// Functionality
 	
 	Scanner sc = new Scanner(System.in);
 	

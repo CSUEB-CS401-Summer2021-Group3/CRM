@@ -1,3 +1,6 @@
+package edu.cs401group3.crm.objects;
+
+
 import java.util.Scanner;
 import java.util.*;
 

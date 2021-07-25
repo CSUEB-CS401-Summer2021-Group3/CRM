@@ -1,5 +1,6 @@
-import static org.junit.jupiter.api.Assertions.*;
+package edu.cs401group3.crm.objects;
 
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

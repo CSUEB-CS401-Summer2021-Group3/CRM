@@ -1,6 +1,8 @@
+package edu.cs401group3.crm.objects;
 import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
-
+import java.security.*;
 // No need of linked-list of Client def.
 
 public class Client {
@@ -8,7 +10,8 @@ public class Client {
 	// Default variables...
 	private String clientUsername;
 	private String clientPassword;
-	// private String clientRole; (obsolete)
+	private static String clientPasswordSalt;
+	// private String clientRole; (Not applicable)
 	private String clientName;
 	private String clientPhone;
 	private String clientEmail;
@@ -66,6 +69,10 @@ public class Client {
 	public void setClientPassword(String CPass) {
 		this.clientPassword = CPass;
 	}
+	private void setClientPasswordSalt(String CPass) {
+		this.clientPasswordSalt = saltPassword(CPass);
+	}
+
 	
 	
 	/**
@@ -104,6 +111,38 @@ public class Client {
 		String temp = " NEW CUSTOMER CREATED! " + "\n\n Confirmation Reciept: ";
 		temp += "\n Username: " + clientUsername +"\n Name: " + clientName + "\n Email: " + clientEmail  + "\n Phone: " + clientPhone;
 		return temp;
+	}
+
+
+	/**
+	* Creates a password hash for the clientPassword in order to interact with the our Authentication model.
+	* @param Pass in password string information, saves updated hash data.
+	* @return No return.
+	*/
+	public static String saltPassword(String CPass) {
+		MessageDigest md;
+		
+		try {
+			// Hash computation
+			// SHA-256 is a secure hash algo
+			md = MessageDigest.getInstance("SHA-256");
+			SecureRandom tempRand = new SecureRandom();
+			
+			byte[] salt = new byte[16];
+			tempRand.nextBytes(salt);
+			// Update on the server-side
+			md.update(salt);
+			byte[] hased = md.digest(CPass.getBytes(StandardCharsets.UTF_8));
+			StringBuilder sb = new StringBuilder();
+			
+			for(byte i : hased)
+				sb.append(String.format("%02x", i));
+				clientPasswordSalt = sb.toString(); // Stores client data
+				return clientPasswordSalt;
+		}catch (Exception e) {
+			System.out.println("NOT SUCCESSFUL. TRY AGAIN.");
+		}
+		return clientPasswordSalt;
 	}
 	
 	
