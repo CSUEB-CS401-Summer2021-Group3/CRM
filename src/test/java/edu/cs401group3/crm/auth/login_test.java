@@ -13,7 +13,7 @@ import edu.cs401group3.crm.objects.User;
 
 import org.junit.jupiter.api.Test;
 
-class auth_test {
+public class login_test {
 	User user= new User();
 	Map<String, Object> credentials=new HashMap<String, Object>();
 	AuthenticationMessage authmsg=new AuthenticationMessage(credentials);

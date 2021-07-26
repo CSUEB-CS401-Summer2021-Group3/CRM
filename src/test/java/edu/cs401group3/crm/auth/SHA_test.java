@@ -5,7 +5,7 @@ import edu.cs401group3.crm.common.SHA256;
 
 import org.junit.jupiter.api.Test;
 
-class SHA_test {
+public class SHA_test {
 
 	@Test
 	void test() {
