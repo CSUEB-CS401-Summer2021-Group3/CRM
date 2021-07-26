@@ -9,9 +9,8 @@ import java.util.Scanner;
 import edu.cs401group3.crm.common.message.*;
 import edu.cs401group3.crm.server.clienthandler.*;
 import edu.cs401group3.crm.objects.User;
+import org.junit.Test;
 
-
-import org.junit.jupiter.api.Test;
 
 public class login_test {
 	User user= new User();
@@ -19,7 +18,7 @@ public class login_test {
 	AuthenticationMessage authmsg=new AuthenticationMessage(credentials);
 	
 	@Test
-	void test() {
+	public void test() {
 		Object uname,upass;
 		
 		System.out.println("User name should be Tom");
