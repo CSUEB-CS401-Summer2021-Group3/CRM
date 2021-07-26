@@ -18,11 +18,21 @@ import edu.cs401group3.crm.common.message.Message;
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.CommandMessage;
 
+/** ClientHandler Class.
+ * ClientHandler handles the connection between a single Client and the Server.<br>
+ * Multiple ClientHandlers are created in a new thread for each new Client that is connecting to the Server.
+ * 
+ * @author Nicholas Krone
+*/
 public class ClientHandler implements Runnable {
 	private final Socket clientSocket;
 	private CommandProcessor commandProcessor;
 	private Logger logger;
 	
+	/** Create a new ClientHandler with a given Client socket
+	 * 
+	 * @param socket A Socket which contains the communications stream from a single Client.
+	 */
 	public ClientHandler(Socket socket) {
 		logger = Logger.getLogger("CRMServer");
 		this.clientSocket = socket;

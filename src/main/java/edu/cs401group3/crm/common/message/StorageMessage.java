@@ -5,23 +5,40 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
 
+/** StorageMessage Class.
+ * Messages are passed between Client and Server using ObjectStream.<br>
+ * 
+ * A StorageMessage contains a payload of data to be saved to persistent storage.
+ * @author Nicholas Krone
+*/
 public class StorageMessage extends Message implements MessageInterface, Comparator<StorageMessage>, Comparable<StorageMessage>, Serializable {
 	private final String type = "storage";
 	private String status;
 	private Date timestamp;
 	private Map<String, Object> payload;
 	
+	/** Create empty StorageMessage for future processing.
+	 * 
+	 */
 	public StorageMessage() {
 		status = "pending";
 		timestamp = new Date();
 	}
 	
+	/** Create new StorageMessage with payload.
+	 * 
+	 */
 	public StorageMessage(Map<String, Object> payload) {
 		this.payload = payload;
 		timestamp = new Date();
 		status = "pending";
 	}
 		
+	/** 
+	 * 
+	 * @param o2 Another StorageMessage to compare this StorageMessage to.<br>
+	 * @return An int representing the comparison between both StorageMessages.
+	 */
 	public int compare(StorageMessage o2) {
 		if (this.getTimestamp().before(o2.getTimestamp())) {
 			return -1;
@@ -59,6 +76,12 @@ public class StorageMessage extends Message implements MessageInterface, Compara
 		return payload;
 	}
 	
+	/** Get the TimeStamp for the Message.<br>
+	 * 
+	 * StorageMessages use a Date timestamp for how they are ordered in the StorageQueue.
+	 * 
+	 * @return A Date representing when the StorageMessage was created.
+	 */
 	public Date getTimestamp() {
 		return timestamp;
 	}
