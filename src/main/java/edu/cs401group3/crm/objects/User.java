@@ -162,7 +162,10 @@ public class User extends Client{
 		this.salt=nsalt;
 	}
 	public String Getsalt(){
-		return salt;
+		return this.salt;
+	}
+	public String Getpassword() {
+		return this.internalPasswordSalt;
 	}
 	public void editClient() {
 		

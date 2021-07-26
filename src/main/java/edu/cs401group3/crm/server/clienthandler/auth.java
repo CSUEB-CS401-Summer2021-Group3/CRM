@@ -4,6 +4,7 @@ import java.util.Map;
 
 import edu.cs401group3.crm.commands.user.User;
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
+//import edu.cs401group3.crm.objects.User;
 
 public class auth {
 	public auth() {}
