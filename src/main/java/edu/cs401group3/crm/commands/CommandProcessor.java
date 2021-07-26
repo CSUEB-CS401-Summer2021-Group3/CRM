@@ -47,6 +47,8 @@ public class CommandProcessor {
 			case IMPORT: break;
 			case EXPORT: break;
 			case SAVE: break;
+		default:
+			break;
 		}
 	}
 }

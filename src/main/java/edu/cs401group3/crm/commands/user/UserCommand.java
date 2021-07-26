@@ -16,7 +16,7 @@ import edu.cs401group3.crm.server.storage.StorageQueue;
  * @author Nicholas Krone
 */
 public class UserCommand {
-	private Logger logger;
+	private Logger logger = Logger.getLogger("CRMServer");
 	StorageQueue queue = StorageQueue.getInstance();
 	FileOperation fileio;
 
@@ -24,7 +24,6 @@ public class UserCommand {
 	 * 
 	 */
 	public UserCommand() {
-		logger = Logger.getLogger("CRMServer");
 		fileio = new FileOperation();
 	}
 	
@@ -35,11 +34,20 @@ public class UserCommand {
 	public synchronized void addUser(User user) {
 		Path userDb = Paths.get(".crm/Users.db");
 		Path userData = Paths.get(".crm/" + user.getName());
+		Path userDataF = Paths.get(userData.toString() + "/data.txt");
 		
 		logger.info("Adding User to Database");
 		fileio.insertLineInFile(userDb, user.getName());
 		logger.info("Creating User folder");
 		fileio.createFolder(userData);
+		
+		// Test - remove after
+		StorageMessage msg = new StorageMessage();
+		msg.getContent().put("user", user);
+		msg.getContent().put("target", userDataF);
+		msg.getContent().put("data", "Test data\n\nTest data\n\nHope this works!");
+		queue.enqueue(msg);
+
 	}
 
 	/** Delete a User from the Server database.
@@ -62,8 +70,12 @@ public class UserCommand {
 	 * @param user A User object to be edited.
 	 */
 	public synchronized void editUser(User user) {
+		Path userData = Paths.get(".crm/" + user.getName() + "data.txt");
+		Path userDataF = Paths.get(userData.toString() + "/data.txt");
 		StorageMessage msg = new StorageMessage();
 		msg.getContent().put("user", user);
+		msg.getContent().put("target", userDataF);
+		msg.getContent().put("data", user.getData());
 		queue.enqueue(msg);
 	}
 }

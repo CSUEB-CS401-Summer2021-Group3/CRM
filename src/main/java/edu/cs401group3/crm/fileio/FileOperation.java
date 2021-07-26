@@ -35,6 +35,10 @@ public class FileOperation {
 	 */
 	public void insertLineInFile(Path path, String line) {
 		try {
+			if (!Files.exists(path)) {
+				path.toFile().createNewFile();
+			}
+			Files.write(Paths.get(path.toString()), "\n".getBytes(), StandardOpenOption.APPEND);
 			Files.write(Paths.get(path.toString()), line.getBytes(), StandardOpenOption.APPEND);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -92,6 +96,8 @@ public class FileOperation {
 			
 			writer.close(); 
 			reader.close();
+			inputFile.delete();
+			tempFile.renameTo(inputFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
