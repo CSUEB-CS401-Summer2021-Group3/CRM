@@ -21,6 +21,8 @@ import edu.cs401group3.crm.common.message.CommandMessage;
 import edu.cs401group3.crm.common.message.Message;
 import edu.cs401group3.crm.common.message.StorageMessage;
 import edu.cs401group3.crm.server.storage.StorageManager;
+import edu.cs401group3.crm.common.salt;
+import edu.cs401group3.crm.common.SHA256;
 
 public class Client {
     private String address;
@@ -78,6 +80,8 @@ public class Client {
             objectOutputStream = new ObjectOutputStream(outputStream);
             inputStream = socket.getInputStream();
             objectInputStream = new ObjectInputStream(inputStream);
+            //Converse password to password+salt hashed
+            password=new SHA256(password+user.Getsalt()).getSHA();
             
             authMessage = new AuthenticationMessage(username, password);
             authMessage.getContent().put("user", user); // Add user object to message

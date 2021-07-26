@@ -1,0 +1,14 @@
+if(auth.check(authMessage)) {
+						authMessage.setStatus("success"); //set message status
+						logger.info("Credentials valid");
+						User user = (User) authMessage.getContent().get("user"); //set inner user object status to logged in
+						user.setStatus("logged in");
+						objectOutputStream.writeObject(authMessage);						
+						logger.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " logged in: ");
+						}
+						else {
+							authMessage.setStatus("Failed");
+							objectOutputStream.writeObject(authMessage);
+						}
+
+						continue;
