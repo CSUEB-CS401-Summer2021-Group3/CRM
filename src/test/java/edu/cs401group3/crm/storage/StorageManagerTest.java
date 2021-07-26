@@ -38,6 +38,7 @@ public class StorageManagerTest {
 		
 		Path file = Paths.get(rootDir.toString() + "/TestFile");
 		FileOperation fileio = new FileOperation();
+		
 		Map<String, Object> content = new HashMap<String, Object>();
 		StorageMessage msg = new StorageMessage();
 		content.put("data", "TEST STRING");
@@ -47,7 +48,6 @@ public class StorageManagerTest {
 		try {
 			TimeUnit.SECONDS.sleep(2);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
