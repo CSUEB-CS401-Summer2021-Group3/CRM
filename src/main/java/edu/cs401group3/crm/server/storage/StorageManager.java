@@ -1,13 +1,8 @@
 package edu.cs401group3.crm.server.storage;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import edu.cs401group3.crm.commands.user.User;
