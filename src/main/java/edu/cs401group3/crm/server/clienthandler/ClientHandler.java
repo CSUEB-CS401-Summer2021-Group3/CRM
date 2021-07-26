@@ -10,7 +10,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import edu.cs401group3.crm.commands.CommandProcessor;
@@ -18,8 +17,6 @@ import edu.cs401group3.crm.commands.user.User;
 import edu.cs401group3.crm.common.message.Message;
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.CommandMessage;
-import edu.cs401group3.crm.common.message.StorageMessage;
-import edu.cs401group3.crm.server.storage.StorageQueue;
 
 public class ClientHandler implements Runnable {
 	private final Socket clientSocket;
