@@ -17,6 +17,7 @@ public class User extends Client{
 	private String role;
 	private String salesManager; // Since each client has a manager. 
 	private static String internalPasswordSalt; // Temp
+	private String salt;
 	
 	// Each Sales class should the option to do CRUD applications to their Client list.
 	// Linked List approach...
@@ -28,7 +29,7 @@ public class User extends Client{
 		this.role = "TEMP EMPLOYEE";
 		this.role = "ADMIN";
 	}
-	
+	//password is get hashed with salt
 	public User(int userID, String userRole, String userMan, String username, String password, String userName, String userPhone, String userEmail) {
 		// Certain information is not required for a Sales person, hence manually inputted null.
 		super(username, password, userName, userPhone, userEmail, null, null);
@@ -156,6 +157,12 @@ public class User extends Client{
 		
 
 		
+	}
+	public void Setsalt(String nsalt) {
+		this.salt=nsalt;
+	}
+	public String Getsalt(){
+		return salt;
 	}
 	public void editClient() {
 		

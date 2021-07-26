@@ -32,6 +32,18 @@ public class ClientHandler implements Runnable {
 		this.clientSocket = socket;
 		commandProcessor = new CommandProcessor();
 	}
+	private boolean auth(AuthenticationMessage msg) {
+		Object uname,upws_hashed;
+		Map<String, Object> content;
+		content=msg.getContent();
+		uname=content.get("user");
+		upws_hashed=content.get("password");
+		User user = (User) msg.getContent().get("user");
+		if(upws_hashed==user.Getpassword()) {
+			return true;
+		}
+		return false;
+	}
 	
 	public void run() {
 		PrintWriter out = null;
@@ -56,13 +68,18 @@ public class ClientHandler implements Runnable {
 						is_logged_in = true;
 						
 						// check authentication here
+						if(auth(authMessage)) {
 						authMessage.setStatus("success"); //set message status
-						
 						logger.info("Credentials valid");
 						User user = (User) authMessage.getContent().get("user"); //set inner user object status to logged in
 						user.setStatus("logged in");
 						objectOutputStream.writeObject(authMessage);						
 						logger.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " logged in: ");
+						}
+						else {
+							authMessage.setStatus("Failed");
+							objectOutputStream.writeObject(authMessage);
+						}
 
 						continue;
 					}
