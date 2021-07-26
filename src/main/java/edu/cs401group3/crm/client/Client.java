@@ -135,6 +135,10 @@ public class Client {
                 		User newUser = createUser();
                 		msg.getContent().put("user", newUser);
                 	}
+                	else if (commands == Commands.DELETE_USER) {
+                		User deleteUser = createUser();
+                		msg.getContent().put("user", deleteUser);
+                	} 
                 }
                 else if (messageType.equals("storage")) {
                 	msg = new StorageMessage();
