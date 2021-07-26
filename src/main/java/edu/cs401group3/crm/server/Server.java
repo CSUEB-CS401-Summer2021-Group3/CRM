@@ -17,7 +17,13 @@ import edu.cs401group3.crm.server.clienthandler.ClientHandler;
 import edu.cs401group3.crm.server.storage.StorageManager;
 import edu.cs401group3.crm.common.Log;
 
-class Server {
+/** Server Class.
+ * CRM Server 
+ * Multiple ClientHandlers are created in a new thread for each new Client that is connecting to the Server.
+ * 
+ * @author Nicholas Krone
+*/
+public class Server {
 	private final int port;
 	private final String defaultPropertyPath = "src/main/resources/server.properties";
 	private boolean server_good;
