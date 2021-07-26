@@ -12,13 +12,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class FileOperationTest {
+public class FileOperationTest {
 
 
 	@Test
-	void FileOperationTestInsertLineInFile() {
+	public void FileOperationTestInsertLineInFile() {
 		FileOperation fileio = new FileOperation();
 		Path file = Paths.get("TestFile.txt");
 		
@@ -46,7 +46,7 @@ class FileOperationTest {
 	}
 
 	@Test
-	void FileOperationTestFindLineInFile() {
+	public void FileOperationTestFindLineInFile() {
 		FileOperation fileio = new FileOperation();
 		Path file = Paths.get("TestFile.txt");
 		
@@ -61,7 +61,7 @@ class FileOperationTest {
 	}
 
 	@Test
-	void FileOperationTestDeleteLineFromFile() {
+	public void FileOperationTestDeleteLineFromFile() {
 		FileOperation fileio = new FileOperation();
 		Path file = Paths.get("TestFile.txt");
 		
@@ -90,7 +90,7 @@ class FileOperationTest {
 	}
 
 	@Test
-	void FileOperationTestCreateFolder() {
+	public void FileOperationTestCreateFolder() {
 		FileOperation fileio = new FileOperation();
 		Path file = Paths.get("DUMMYFOLDER");
 		fileio.createFolder(file);
@@ -99,7 +99,7 @@ class FileOperationTest {
 	}
 
 	@Test
-	void FileOperationTestCreateFile() {
+	public void FileOperationTestCreateFile() {
 		FileOperation fileio = new FileOperation();
 		Path file = Paths.get("TestFile.txt");
 		fileio.createFile(file);
@@ -107,7 +107,7 @@ class FileOperationTest {
 	}
 
 	@Test
-	void FileOperationTestDeleteFolder() {
+	public void FileOperationTestDeleteFolder() {
 		FileOperation fileio = new FileOperation();
 		Path file = Paths.get("DUMMYFOLDER");
 		fileio.createFolder(file);
@@ -126,7 +126,9 @@ class FileOperationTest {
 	
 	@AfterEach
 	void removeDummyFolder() {
-		new File("DUMMYFOLDER").delete();
+		FileOperation fileio = new FileOperation();
+		Path file = Paths.get("DUMMYFOLDER");
+		fileio.deleteFolder(file);
 	}
 
 }
