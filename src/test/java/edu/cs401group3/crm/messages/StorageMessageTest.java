@@ -83,4 +83,18 @@ class StorageMessageTest {
 		Date ts = msg.getTimestamp();
 		assert(ts instanceof Date);
 	}
+	
+	@Test
+	void StorageMessageGetOperation() {
+		StorageMessage msg = new StorageMessage(StorageOperation.WRITE, null);
+		assertEquals(StorageOperation.WRITE, msg.getOperation());
+	}
+	
+	@Test
+	void StorageMessageSetOperation() {
+		StorageMessage msg = new StorageMessage(StorageOperation.WRITE, null);
+		assertEquals(StorageOperation.WRITE, msg.getOperation());
+		msg.setOperation(StorageOperation.READ);
+		assertEquals(StorageOperation.READ, msg.getOperation());
+	}
 }
