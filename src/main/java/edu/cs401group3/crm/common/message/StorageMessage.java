@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
 
+import edu.cs401group3.crm.server.storage.StorageOperation;
+
 /** StorageMessage Class.
  * Messages are passed between Client and Server using ObjectStream.<br>
  * 
@@ -15,6 +17,7 @@ public class StorageMessage extends Message implements MessageInterface, Compara
 	private final String type = "storage";
 	private String status;
 	private Date timestamp;
+	private StorageOperation operation;
 	private Map<String, Object> payload;
 	
 	/** Create empty StorageMessage for future processing.
@@ -23,12 +26,14 @@ public class StorageMessage extends Message implements MessageInterface, Compara
 	public StorageMessage() {
 		status = "pending";
 		timestamp = new Date();
+		this.setOperation(StorageOperation.WRITE);		
 	}
 	
 	/** Create new StorageMessage with payload.
 	 * 
 	 */
-	public StorageMessage(Map<String, Object> payload) {
+	public StorageMessage(StorageOperation operation, Map<String, Object> payload) {
+		this.setOperation(operation);
 		this.payload = payload;
 		timestamp = new Date();
 		status = "pending";
@@ -47,6 +52,20 @@ public class StorageMessage extends Message implements MessageInterface, Compara
 		} else {
 			return 0;
 		}    
+	}
+
+	/** Get the StorageOperation
+	 * @return the operation
+	 */
+	public StorageOperation getOperation() {
+		return operation;
+	}
+
+	/**
+	 * @param operation the operation to set
+	 */
+	public void setOperation(StorageOperation operation) {
+		this.operation = operation;
 	}
 
 	@Override

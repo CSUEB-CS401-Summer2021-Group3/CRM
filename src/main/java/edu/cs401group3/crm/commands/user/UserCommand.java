@@ -16,10 +16,20 @@ import java.util.logging.Logger;
 import edu.cs401group3.crm.common.message.StorageMessage;
 import edu.cs401group3.crm.server.storage.StorageQueue;
 
+/** UserCommand Class.
+ * 
+ * UserCommands cover operation pertaining to Users.<br>
+ * Creating a User, editing a User or Deleting a User.
+ * 
+ * @author Nicholas Krone
+*/
 public class UserCommand {
 	private Logger logger;
 	StorageQueue queue = StorageQueue.getInstance();
-	
+
+	/** Create a new UserCommand
+	 * 
+	 */
 	public UserCommand() {
 		logger = Logger.getLogger("CRMServer");
 	}

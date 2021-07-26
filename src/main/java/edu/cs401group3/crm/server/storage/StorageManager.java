@@ -44,22 +44,34 @@ public class StorageManager implements Runnable {
 				logger.info("Non-null message!");
 				String data = "";
 
-				User user = (User) msg.getContent().get("user");
-				data = user.getData(); // For now we do this until we know exactly the format of the data to save
-					
-				try {
-					FileWriter fw = new FileWriter(".crm/" + user + "/" + "data.txt", true);
-					BufferedWriter bw = new BufferedWriter(fw);
-					bw.write(data);
-					bw.newLine();
-					bw.close();
-					logger.info("WROTE SOMETHING!");
-					
-				} catch (IOException e) {
-					e.printStackTrace();
+				if (msg.getOperation() == StorageOperation.WRITE) {					
+					try {
+						logger.info("Perform write operation");
+						User user = (User) msg.getContent().get("user");
+						data = user.getData(); // For now we do this until we know exactly the format of the data to save
+						
+						FileWriter fw = new FileWriter(".crm/" + user + "/" + "data.txt", true);
+						BufferedWriter bw = new BufferedWriter(fw);
+						bw.write(data);
+						bw.newLine();
+						bw.close();
+						logger.info("WROTE SOMETHING!");
+						
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				else if (msg.getOperation() == StorageOperation.READ) {
+					logger.info("Perform read operation");
+					User user = (User) msg.getContent().get("user");
+					data = user.getData(); // For now we do this until we know exactly the format of the data to save
 				}
 			}
 			else {}
 		}
+	}
+	
+	public void getUserFile(User user) {
+		
 	}
 }

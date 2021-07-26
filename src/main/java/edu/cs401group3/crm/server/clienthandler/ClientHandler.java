@@ -61,6 +61,8 @@ public class ClientHandler implements Runnable {
 						AuthenticationMessage authMessage = (AuthenticationMessage) msg;
 						is_logged_in = true;
 						
+						// Get user data
+						
 						// check authentication here
 						authMessage.setStatus("success"); //set message status
 						
