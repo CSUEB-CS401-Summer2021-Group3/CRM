@@ -3,6 +3,7 @@ package edu.cs401group3.crm.common.message;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import edu.cs401group3.crm.server.storage.StorageOperation;
@@ -26,7 +27,8 @@ public class StorageMessage extends Message implements MessageInterface, Compara
 	public StorageMessage() {
 		status = "pending";
 		timestamp = new Date();
-		this.setOperation(StorageOperation.WRITE);		
+		payload = new HashMap<String, Object>();
+		this.setOperation(StorageOperation.WRITE);
 	}
 	
 	/** Create new StorageMessage with payload.
@@ -76,7 +78,6 @@ public class StorageMessage extends Message implements MessageInterface, Compara
 	@Override
 	public void setStatus(String status) {
 		this.status = status;
-		
 	}
 
 	@Override
