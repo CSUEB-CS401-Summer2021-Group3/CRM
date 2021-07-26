@@ -13,14 +13,26 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.logging.Logger;
 
+/** FileOperation Class.
+ * 
+ * FileOperation class handles manipulation of Path and File objects. 
+ * @author Nicholas Krone
+*/
 public class FileOperation {
 	private Logger logger;
 	
+	/**Create new FileOperation class.
+	 * 
+	 */
 	public FileOperation() {
 		logger = Logger.getLogger("CRMServer");
 	}
 	
-	
+	/** Insert line into a File
+	 * 
+	 * @param path A Path representing the Path of a File.
+	 * @param line A String representing the line to insert.
+	 */
 	public void insertLineInFile(Path path, String line) {
 		try {
 			Files.write(Paths.get(path.toString()), line.getBytes(), StandardOpenOption.APPEND);
@@ -29,6 +41,12 @@ public class FileOperation {
 		}
 	}
 	
+	/** Search a line in a File
+	 * 
+	 * @param path A Path representing the Path of a File. 
+	 * @param searchStr A String representing a line to search in a File.
+	 * @return A boolean representing whether the line is in a File.
+	 */
 	public boolean findLineInFile(Path path, String searchStr) {
 		boolean lineExists = false;
 		
@@ -51,6 +69,11 @@ public class FileOperation {
 		return lineExists;
 	}
 	
+	/** Delete a line from a File
+	 * 
+	 * @param path A Path representing the Path of a File. 
+	 * @param searchStr A String representing a line to search in a File.
+	 */
 	public void deleteLineFromFile(Path path, String searchStr) {
 		File inputFile = path.toFile();
 		File tempFile = new File("tempFile.txt");
@@ -74,6 +97,10 @@ public class FileOperation {
 		}
 	}
 	
+	/** Create a Folder based at a Path.
+	 * 
+	 * @param path A Path representing the Path of a File.
+	 */
 	public void createFolder(Path path) {
 		if (!Files.exists(path)) {
 			logger.info("Creating " + path.toString());
@@ -86,6 +113,10 @@ public class FileOperation {
 		}
 	}
 
+	/** Create a File based at a Path.
+	 * 
+	 * @param path A Path representing the Path of a File.
+	 */
 	public void createFile(Path path) {
 		try {
 			if (!Files.exists(path)) {
@@ -99,6 +130,10 @@ public class FileOperation {
 		}	
 	}
 
+	/** Delete a Folder and all it's contents
+	 * 
+	 * @param path A Path representing the Path of a File.
+	 */
 	public void deleteFolder(Path path) {
 		File file = path.toFile();
 		String[] content = file.list();

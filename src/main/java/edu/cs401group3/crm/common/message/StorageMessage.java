@@ -76,7 +76,6 @@ public class StorageMessage extends Message implements MessageInterface, Compara
 	@Override
 	public void setStatus(String status) {
 		this.status = status;
-		
 	}
 
 	@Override
