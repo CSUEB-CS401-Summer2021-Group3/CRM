@@ -21,16 +21,15 @@ public class StorageMessage extends Message implements MessageInterface, Compara
 		timestamp = new Date();
 		status = "pending";
 	}
-
-	@Override
-	public int compare(StorageMessage o1, StorageMessage o2) {		
-        if (o1.getTimestamp().before(o2.getTimestamp())) {
-            return -1;
-        } else if (o1.getTimestamp().after(o2.getTimestamp())) {
-            return 1;
-        } else {
-            return 0;
-        }
+		
+	public int compare(StorageMessage o2) {
+		if (this.getTimestamp().before(o2.getTimestamp())) {
+			return -1;
+		} else if (this.getTimestamp().after(o2.getTimestamp())) {
+			return 1;
+		} else {
+			return 0;
+		}    
 	}
 
 	@Override
@@ -66,14 +65,18 @@ public class StorageMessage extends Message implements MessageInterface, Compara
 
 	@Override
 	public int compareTo(StorageMessage o) {
-//		if (this.getTimestamp().before(o.getTimestamp())) {
-//            return -1;
-//        } else if (this.getTimestamp().after(o.getTimestamp())) {
-//            return 1;
-//        } else {
-//            return 0;
-//        }
+
 		return this.getTimestamp().compareTo(o.getTimestamp());
 	}
 
+	@Override
+	public int compare(StorageMessage o1, StorageMessage o2) {
+		if (this.getTimestamp().before(o2.getTimestamp())) {
+			return -1;
+		} else if (this.getTimestamp().after(o2.getTimestamp())) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 }

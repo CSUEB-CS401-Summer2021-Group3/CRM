@@ -9,6 +9,7 @@ import java.util.Random;
 import org.junit.jupiter.api.Test;
 
 import edu.cs401group3.crm.commands.Commands;
+import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.CommandMessage;
 
 class CommandMessageTest {
@@ -65,7 +66,24 @@ class CommandMessageTest {
 			assertEquals(key, "key");
 		    assertEquals(value.toString(), "value");
 		}
+	}
+	
+	@Test
+	void CommandMessageValidateGetContent() {
+		Map<String, Object> content = new HashMap<String, Object>();
+		content.put("key", "value");
 		
+		AuthenticationMessage msg = new AuthenticationMessage(content);
+		
+		Map<String, Object> cntns = msg.getContent();
+
+		for (Map.Entry<String, Object> entry: cntns.entrySet()) {
+			String key = entry.getKey();
+			Object value = entry.getValue();
+
+			assertEquals(key, "key");
+		    assertEquals(value.toString(), "value");
+		}
 	}
 	
 	@Test

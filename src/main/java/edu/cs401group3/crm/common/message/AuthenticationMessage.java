@@ -45,5 +45,4 @@ public class AuthenticationMessage extends Message implements Serializable{
 	public Map<String, Object> getContent() {
 		return credentials;
 	}
-
 }
