@@ -13,6 +13,7 @@ import java.net.SocketTimeoutException;
 import java.util.Map;
 import java.util.logging.Logger;
 
+
 import edu.cs401group3.crm.commands.CommandProcessor;
 import edu.cs401group3.crm.commands.user.User;
 import edu.cs401group3.crm.common.message.Message;
@@ -20,6 +21,7 @@ import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.CommandMessage;
 import edu.cs401group3.crm.common.message.StorageMessage;
 import edu.cs401group3.crm.server.storage.StorageQueue;
+import edu.cs401group3.crm.server.clienthandler.auth;
 
 public class ClientHandler implements Runnable {
 	private final Socket clientSocket;
@@ -31,18 +33,6 @@ public class ClientHandler implements Runnable {
 		logger = Logger.getLogger("CRMServer");
 		this.clientSocket = socket;
 		commandProcessor = new CommandProcessor();
-	}
-	private boolean auth(AuthenticationMessage msg) {
-		Object uname,upws_hashed;
-		Map<String, Object> content;
-		content=msg.getContent();
-		uname=content.get("user");
-		upws_hashed=content.get("password");
-		User user = (User) msg.getContent().get("user");
-		if(upws_hashed==user.Getpassword()) {
-			return true;
-		}
-		return false;
 	}
 	
 	public void run() {
@@ -68,7 +58,7 @@ public class ClientHandler implements Runnable {
 						is_logged_in = true;
 						
 						// check authentication here
-						if(auth(authMessage)) {
+						if(auth.check(authMessage)) {
 						authMessage.setStatus("success"); //set message status
 						logger.info("Credentials valid");
 						User user = (User) authMessage.getContent().get("user"); //set inner user object status to logged in
