@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.After;
 import org.junit.Test;
 
 public class FileOperationTest {
@@ -120,12 +121,19 @@ public class FileOperationTest {
 	}
 	
 	@AfterEach
-	void removeTestFile() {
+	public void removeTestFile() {
 		new File("TestFile.txt").delete();
 	}
 	
 	@AfterEach
-	void removeDummyFolder() {
+	public void removeDummyFolder() {
+		FileOperation fileio = new FileOperation();
+		Path file = Paths.get("DUMMYFOLDER");
+		fileio.deleteFolder(file);
+	}
+	
+	@After
+	public void removeFolder() {
 		FileOperation fileio = new FileOperation();
 		Path file = Paths.get("DUMMYFOLDER");
 		fileio.deleteFolder(file);

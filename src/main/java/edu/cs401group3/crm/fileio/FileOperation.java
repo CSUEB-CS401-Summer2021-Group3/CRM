@@ -144,9 +144,11 @@ public class FileOperation {
 		File file = path.toFile();
 		String[] content = file.list();
 		
-		for (String s : content) {
-			File currentFile = new File(file.getPath(), s);
-			currentFile.delete();
+		if (content != null) {			
+			for (String s : content) {
+				File currentFile = new File(file.getPath(), s);
+				currentFile.delete();
+			}
 		}
 		file.delete();
 	}
