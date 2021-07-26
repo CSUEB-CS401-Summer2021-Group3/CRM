@@ -66,4 +66,11 @@ public class StorageManagerTest {
 		
 		fileio.deleteFolder(rootDir);
 	}
+	
+
+	@After
+	public void setupRemoveRootdir() {
+		FileOperation fileio = new FileOperation();
+		fileio.deleteFolder(rootDir);
+	}
 }
