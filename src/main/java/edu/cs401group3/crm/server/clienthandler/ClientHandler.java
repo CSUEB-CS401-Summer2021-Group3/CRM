@@ -10,25 +10,29 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.Map;
 import java.util.logging.Logger;
-
 
 import edu.cs401group3.crm.commands.CommandProcessor;
 import edu.cs401group3.crm.commands.user.User;
 import edu.cs401group3.crm.common.message.Message;
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.CommandMessage;
-import edu.cs401group3.crm.common.message.StorageMessage;
-import edu.cs401group3.crm.server.storage.StorageQueue;
-import edu.cs401group3.crm.server.clienthandler.auth;
 
+/** ClientHandler Class.
+ * ClientHandler handles the connection between a single Client and the Server.<br>
+ * Multiple ClientHandlers are created in a new thread for each new Client that is connecting to the Server.
+ * 
+ * @author Nicholas Krone
+*/
 public class ClientHandler implements Runnable {
 	private final Socket clientSocket;
-	private StorageQueue queue = StorageQueue.getInstance();
 	private CommandProcessor commandProcessor;
 	private Logger logger;
 	
+	/** Create a new ClientHandler with a given Client socket
+	 * 
+	 * @param socket A Socket which contains the communications stream from a single Client.
+	 */
 	public ClientHandler(Socket socket) {
 		logger = Logger.getLogger("CRMServer");
 		this.clientSocket = socket;
@@ -57,19 +61,16 @@ public class ClientHandler implements Runnable {
 						AuthenticationMessage authMessage = (AuthenticationMessage) msg;
 						is_logged_in = true;
 						
+						// Get user data
+						
 						// check authentication here
-						if(auth.check(authMessage)) {
 						authMessage.setStatus("success"); //set message status
+						
 						logger.info("Credentials valid");
 						User user = (User) authMessage.getContent().get("user"); //set inner user object status to logged in
 						user.setStatus("logged in");
 						objectOutputStream.writeObject(authMessage);						
 						logger.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " logged in: ");
-						}
-						else {
-							authMessage.setStatus("Failed");
-							objectOutputStream.writeObject(authMessage);
-						}
 
 						continue;
 					}
@@ -79,8 +80,8 @@ public class ClientHandler implements Runnable {
 							continue;
 						}
 					}
-					
-//					We leave this commented out now since ClientHandler will most likely not handle storage messages					
+
+//					TODO Handle logout
 //					else if (msg.getType().equals("logout")) {
 //						is_logged_in = false;
 //						msg.setStatus("success");
@@ -95,28 +96,7 @@ public class ClientHandler implements Runnable {
 
 					// Begin processing
 					logger.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " message: " + msg.getType());
-					
-					// Process Storage (This might be removed and handled internally by Command)
-//					if (msg.getType().equals("storage")) {		
-//						System.out.println("New storage message");
-//						String key = "";
-//						String value = "";
-//						try {
-//							
-//							for (Map.Entry<String, Object> entry : msg.getContent().entrySet()) {
-//								key = entry.getKey();
-//								value = entry.getValue().toString();
-//								Log.LOGGER.info(key + ":" + value);
-//							}
-//						} catch (NullPointerException e) {
-//							Log.LOGGER.info("key -- " + key);
-//							e.printStackTrace();
-//						}
-//						queue.enqueue((StorageMessage) msg);
-//					}
-//					// Process Command
-//					else 
-					
+										
 					if (msg.getType().equals("command")) {
 						logger.info("Command Message Received");
 						CommandMessage command = (CommandMessage) msg;

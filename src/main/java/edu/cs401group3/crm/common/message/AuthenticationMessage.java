@@ -23,7 +23,7 @@ public class AuthenticationMessage extends Message implements Serializable{
 	public AuthenticationMessage(String username, String password) {
 		credentials = new HashMap<String, Object>();
 		credentials.put("username", username);
-		credentials.put("password", password);//not really password it's password+salt get hashed
+		credentials.put("password", password);
 		status = "pending";
 	}
 
