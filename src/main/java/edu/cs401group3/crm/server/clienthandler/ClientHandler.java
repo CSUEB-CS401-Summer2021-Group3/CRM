@@ -23,7 +23,6 @@ import edu.cs401group3.crm.server.storage.StorageQueue;
 
 public class ClientHandler implements Runnable {
 	private final Socket clientSocket;
-	private StorageQueue queue = StorageQueue.getInstance();
 	private CommandProcessor commandProcessor;
 	private Logger logger;
 	
@@ -72,8 +71,8 @@ public class ClientHandler implements Runnable {
 							continue;
 						}
 					}
-					
-//					We leave this commented out now since ClientHandler will most likely not handle storage messages					
+
+//					TODO Handle logout
 //					else if (msg.getType().equals("logout")) {
 //						is_logged_in = false;
 //						msg.setStatus("success");
@@ -88,28 +87,7 @@ public class ClientHandler implements Runnable {
 
 					// Begin processing
 					logger.info("Client: " + clientSocket.getInetAddress().getHostAddress() + " message: " + msg.getType());
-					
-					// Process Storage (This might be removed and handled internally by Command)
-//					if (msg.getType().equals("storage")) {		
-//						System.out.println("New storage message");
-//						String key = "";
-//						String value = "";
-//						try {
-//							
-//							for (Map.Entry<String, Object> entry : msg.getContent().entrySet()) {
-//								key = entry.getKey();
-//								value = entry.getValue().toString();
-//								Log.LOGGER.info(key + ":" + value);
-//							}
-//						} catch (NullPointerException e) {
-//							Log.LOGGER.info("key -- " + key);
-//							e.printStackTrace();
-//						}
-//						queue.enqueue((StorageMessage) msg);
-//					}
-//					// Process Command
-//					else 
-					
+										
 					if (msg.getType().equals("command")) {
 						logger.info("Command Message Received");
 						CommandMessage command = (CommandMessage) msg;
