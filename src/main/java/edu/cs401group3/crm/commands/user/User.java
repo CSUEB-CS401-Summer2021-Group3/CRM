@@ -9,6 +9,8 @@ public class User implements Serializable {
 	private String name;
 	private String status;
 	private String data;
+	private String salt;
+	private String password;
 	
 	public User(String name) {
 		this.name = name;
@@ -30,7 +32,18 @@ public class User implements Serializable {
 	public String getData() {
 		return data;
 	}
-
+	public void Setsalt(String nsalt) {
+		this.salt=nsalt;
+	}
+	public String Getsalt(){
+		return this.salt;
+	}
+	public void Setpassword(String npassword) {
+		this.password=npassword;
+	}
+	public String Getpassword(){
+		return this.password;
+	}
 	public void setData(String data) {
 		this.data = data;
 	}
