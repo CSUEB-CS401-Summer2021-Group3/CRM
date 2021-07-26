@@ -55,7 +55,7 @@ public class User extends Client{
 	public void setManagerName(String m) {
 		this.salesManager = m;
 	}
-	public void setInternalPassword(String npassword){
+	public void Setpassword(String npassword){
 		this.password = npassword;
 	}
 

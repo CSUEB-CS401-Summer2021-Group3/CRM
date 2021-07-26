@@ -4,10 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import edu.cs401group3.crm.common.message.*;
 import edu.cs401group3.crm.server.clienthandler.*;
 import edu.cs401group3.crm.objects.User;
+
 
 import org.junit.jupiter.api.Test;
 
@@ -18,12 +20,33 @@ class auth_test {
 	
 	@Test
 	void test() {
-		user.setInternalPassword("a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3");
-		credentials.put("username", "Tom");
-		credentials.put("password", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3");
-		credentials.put("user", user);
-		assertEquals(true,auth.check(authmsg));
+		Scanner scanner;
+		scanner = new Scanner(System.in);
+		Object uname,upass;
 		
-	}
+		System.out.println("User name should be Tom");
+		System.out.println("Password should be 123");
+		user.setClientUsername("Tom");
+		user.Setpassword("123");
+		System.out.println("Enter the user name:");
+		uname=scanner.nextLine();
+		credentials.put("username", uname);
+		System.out.println("Enter the user password:");
+		upass=scanner.nextLine();
+		credentials.put("password", upass);
+		credentials.put("user", user);
+		authmsg.setContent(credentials);
+		User user1 = (User) authmsg.getContent().get("user");
+		
+		if(auth.check(authmsg)) {
+			System.out.println("Success!");
+		}
+		else {
+			System.out.println("Wrong passowrd or username!");
+		}
+		
+	    assertEquals(true,auth.check(authmsg));
+		
 
+}
 }

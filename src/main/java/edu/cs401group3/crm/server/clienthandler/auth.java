@@ -8,16 +8,13 @@ import edu.cs401group3.crm.objects.User;
 public class auth {
 	public auth() {}
 	public static boolean check(AuthenticationMessage msg) {
-		Object uname,upws_hashed;
-		Map<String, Object> content;
-		content=msg.getContent();
-		uname=content.get("user");
-		upws_hashed=content.get("password");
 		User user = (User) msg.getContent().get("user");
-		if(upws_hashed==user.Getpassword()) {
+		String uname=(String) msg.getContent().get("username");
+		String upws_hashed=(String) msg.getContent().get("password");
+		if(upws_hashed.equals(user.Getpassword())&&uname.equals(user.getClientUsername())) {
 			return true;
 		}
+		else
 		return false;
-		
 	}
 }
