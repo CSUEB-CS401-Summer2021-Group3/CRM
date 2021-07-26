@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
 
 import edu.cs401group3.crm.common.message.StorageMessage;
+import edu.cs401group3.crm.server.storage.StorageOperation;
 
 class StorageMessageTest {
 
@@ -33,7 +34,7 @@ class StorageMessageTest {
 		Map<String, Object> content = new HashMap<String, Object>();
 		content.put("key", "value");
 		
-		StorageMessage msg = new StorageMessage(content);
+		StorageMessage msg = new StorageMessage(StorageOperation.WRITE, content);
 		
 		Map<String, Object> cntns = msg.getContent();
 
