@@ -95,8 +95,4 @@ public class StorageManager implements Runnable {
 			else {}
 		}
 	}
-	
-	public void getUserFile(User user) {
-		
-	}
 }
