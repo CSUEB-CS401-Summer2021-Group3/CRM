@@ -44,7 +44,6 @@ class AllAuthCases {
 		credentials.put("password", upass);
 		credentials.put("user", user);
 		authmsg.setContent(credentials);
-		User user1 = (User) authmsg.getContent().get("user");
 		
 		if(auth.check(authmsg)) {
 			System.out.println("Success!");

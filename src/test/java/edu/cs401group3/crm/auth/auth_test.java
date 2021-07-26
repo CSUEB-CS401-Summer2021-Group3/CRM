@@ -20,23 +20,18 @@ class auth_test {
 	
 	@Test
 	void test() {
-		Scanner scanner;
-		scanner = new Scanner(System.in);
 		Object uname,upass;
 		
 		System.out.println("User name should be Tom");
 		System.out.println("Password should be 123");
 		user.setClientUsername("Tom");
 		user.Setpassword("123");
-		System.out.println("Enter the user name:");
-		uname=scanner.nextLine();
+		uname="Tom";
 		credentials.put("username", uname);
-		System.out.println("Enter the user password:");
-		upass=scanner.nextLine();
+		upass="123";
 		credentials.put("password", upass);
 		credentials.put("user", user);
 		authmsg.setContent(credentials);
-		User user1 = (User) authmsg.getContent().get("user");
 		
 		if(auth.check(authmsg)) {
 			System.out.println("Success!");
