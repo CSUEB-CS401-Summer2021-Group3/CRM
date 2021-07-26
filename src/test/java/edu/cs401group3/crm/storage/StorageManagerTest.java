@@ -11,14 +11,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import edu.cs401group3.crm.common.message.StorageMessage;
 import edu.cs401group3.crm.fileio.FileOperation;
 import edu.cs401group3.crm.server.storage.StorageManager;
 import edu.cs401group3.crm.server.storage.StorageQueue;
 
-class StorageManagerTest {
+public class StorageManagerTest {
 	
 	Path rootDir = Paths.get("TestFolder"); 
 	StorageManager storageManager = new StorageManager();	
@@ -32,7 +32,7 @@ class StorageManagerTest {
 
 
 	@Test
-	void StorageManagerReadFromQueue() {
+	public void StorageManagerTestReadFromQueue() {
 		Thread thread = new Thread(storageManager);
 		thread.start();
 		

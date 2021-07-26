@@ -5,20 +5,20 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
 
-class AuthenticationMessageTest {
+public class AuthenticationMessageTest {
 
 	@Test
-	void AuthenticationMessageValidateType() {
+	public void AuthenticationMessageTestType() {
 		AuthenticationMessage msg = new AuthenticationMessage(null, null);
 		assertEquals(msg.getType(), "authentication");	
 	}
 	
 	@Test
-	void AuthenticationMessageValidateSetGetStatus() {
+	public void AuthenticationMessageTestSetGetStatus() {
 		AuthenticationMessage msg = new AuthenticationMessage(null, null);
 		assertEquals(msg.getStatus(), "pending");
 		
@@ -27,7 +27,7 @@ class AuthenticationMessageTest {
 	}
 
 	@Test
-	void AuthenticationMessageValidateSetContent() {
+	public void AuthenticationMessageTestSetContent() {
 		Map<String, Object> content = new HashMap<String, Object>();
 		content.put("key", "value");
 		
@@ -45,7 +45,7 @@ class AuthenticationMessageTest {
 	}
 
 	@Test
-	void AuthenticationMessageValidateGetContent() {
+	public void AuthenticationMessageTestGetContent() {
 		Map<String, Object> content = new HashMap<String, Object>();
 		content.put("key", "value");
 		

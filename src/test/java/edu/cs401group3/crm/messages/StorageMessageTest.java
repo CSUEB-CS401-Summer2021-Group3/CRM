@@ -7,21 +7,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import edu.cs401group3.crm.common.message.StorageMessage;
 import edu.cs401group3.crm.server.storage.StorageOperation;
 
-class StorageMessageTest {
+public class StorageMessageTest {
 
 	@Test
-	void StorageMessageValidateType() {
+	public void StorageMessageTestValidateType() {
 		StorageMessage msg = new StorageMessage();
 		assertEquals(msg.getType(), "storage");	
 	}
 
 	@Test
-	void StorageMessageValidateSetGetStatus() {
+	public void StorageMessageValidateSetGetStatus() {
 		StorageMessage msg = new StorageMessage();
 		assertEquals(msg.getStatus(), "pending");
 		
@@ -30,7 +30,7 @@ class StorageMessageTest {
 	}
 	
 	@Test
-	void CommandMessageValidateGetContent() {
+	public void StorageMessageTestGetContent() {
 		Map<String, Object> content = new HashMap<String, Object>();
 		content.put("key", "value");
 		
@@ -48,7 +48,7 @@ class StorageMessageTest {
 	}
 
 	@Test
-	void StorageMessageValidateSetContent() {
+	public void StorageMessageTestSetContent() {
 		Map<String, Object> content = new HashMap<String, Object>();
 		content.put("key", "value");
 		
@@ -66,7 +66,7 @@ class StorageMessageTest {
 	}
 	
 	@Test
-	void StorageMessageValidateCompare() {
+	public void StorageMessageTestCompare() {
 		StorageMessage o1 = new StorageMessage();
 		try {
 			TimeUnit.SECONDS.sleep(5);
@@ -78,20 +78,20 @@ class StorageMessageTest {
 	}
 
 	@Test
-	void StorageMessageGetTimeStamp() {
+	public void StorageMessageTestGetTimeStamp() {
 		StorageMessage msg = new StorageMessage();
 		Date ts = msg.getTimestamp();
 		assert(ts instanceof Date);
 	}
 	
 	@Test
-	void StorageMessageGetOperation() {
+	public void StorageMessageTestGetOperation() {
 		StorageMessage msg = new StorageMessage(StorageOperation.WRITE, null);
 		assertEquals(StorageOperation.WRITE, msg.getOperation());
 	}
 	
 	@Test
-	void StorageMessageSetOperation() {
+	public void StorageMessageTestSetOperation() {
 		StorageMessage msg = new StorageMessage(StorageOperation.WRITE, null);
 		assertEquals(StorageOperation.WRITE, msg.getOperation());
 		msg.setOperation(StorageOperation.READ);

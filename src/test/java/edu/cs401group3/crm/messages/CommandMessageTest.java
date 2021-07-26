@@ -6,22 +6,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import edu.cs401group3.crm.commands.Commands;
 import edu.cs401group3.crm.common.message.AuthenticationMessage;
 import edu.cs401group3.crm.common.message.CommandMessage;
 
-class CommandMessageTest {
+public class CommandMessageTest {
 
 	@Test
-	void CommandMessageValidateType() {
+	public void CommandMessageTestGetType() {
 		CommandMessage msg = new CommandMessage(Commands.DUMMY_COMMAND, null);
 		assertEquals(msg.getType(), "command");	
 	}
 	
 	@Test
-	void CommandMessageValidateSetGetStatus() {
+	public void CommandMessageTestSetGetStatus() {
 		CommandMessage msg = new CommandMessage(Commands.DUMMY_COMMAND, null);
 		assertEquals(msg.getStatus(), "pending");
 		
@@ -30,28 +30,28 @@ class CommandMessageTest {
 	}
 	
 	@Test
-	void CommandMessageValidateCommandSetAddUser() {
+	public void CommandMessageTestCommandSetAddUser() {
 		CommandMessage msg = new CommandMessage(Commands.ADD_USER, null);
 		assertEquals(msg.getCommand(), Commands.ADD_USER);
 		assertEquals(msg.getCommandName(), "ADD_USER");
 	}
 	
 	@Test
-	void CommandMessageValidateCommandSetDeleteUser() {
+	public void CommandMessageTestCommandSetDeleteUser() {
 		CommandMessage msg = new CommandMessage(Commands.DELETE_USER, null);
 		assertEquals(msg.getCommand(), Commands.DELETE_USER);
 		assertEquals(msg.getCommandName(), "DELETE_USER");
 	}
 		
 	@Test
-	void CommandMessageValidateCommandSetEditUser() {
+	public void CommandMessageTestCommandSetEditUser() {
 		CommandMessage msg = new CommandMessage(Commands.EDIT_USER, null);
 		assertEquals(msg.getCommand(), Commands.EDIT_USER);
 		assertEquals(msg.getCommandName(), "EDIT_USER");
 	}
 	
 	@Test
-	void CommandMessageValidateSetContent() {
+	public void CommandMessageTestSetContent() {
 		Map<String, Object> content = new HashMap<String, Object>();
 		content.put("key", "value");
 		
@@ -69,7 +69,7 @@ class CommandMessageTest {
 	}
 	
 	@Test
-	void CommandMessageValidateGetContent() {
+	public void CommandMessageTestGetContent() {
 		Map<String, Object> content = new HashMap<String, Object>();
 		content.put("key", "value");
 		
@@ -87,7 +87,7 @@ class CommandMessageTest {
 	}
 	
 	@Test
-	void CommandMessageValidateRandomCommand() {
+	public void CommandMessageTestRandomCommand() {
 		int size = Commands.values().length;
 		int item = new Random().nextInt(size);
 		Commands command = Commands.values()[item];

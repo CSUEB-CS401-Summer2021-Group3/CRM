@@ -4,12 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class RecordTest {
+public class RecordTest {
 
 	@Test
-	void RecordTestCreateRecord() {
+	public void RecordTestCreateRecord() {
 		Record record = new Record();
 		assertEquals("", record.getComment());
 		assertEquals("", record.getId());
@@ -17,7 +17,7 @@ class RecordTest {
 	}
 
 	@Test
-	void RecordTestCreateRecordFunction() {
+	public void RecordTestCreateRecordFunction() {
 		Date date = new Date();
 		String id = "1234";
 		String comment = "test comment";
@@ -28,7 +28,7 @@ class RecordTest {
 	}
 
 	@Test
-	void RecordTestGetTimeStamp() {
+	public void RecordTestGetTimeStamp() {
 		Date date = new Date();
 		String id = "1234";
 		String comment = "test comment";
@@ -37,7 +37,7 @@ class RecordTest {
 	}
 
 	@Test
-	void RecordTestGetComment() {
+	public void RecordTestGetComment() {
 		Date date = new Date();
 		String id = "1234";
 		String comment = "test comment";
@@ -47,7 +47,7 @@ class RecordTest {
 	}
 
 	@Test
-	void RecordTestSetComment() {
+	public void RecordTestSetComment() {
 		Date date = new Date();
 		String id = "1234";
 		String comment = "test comment";
@@ -58,7 +58,7 @@ class RecordTest {
 	}
 
 	@Test
-	void RecordTestGetId() {
+	public void RecordTestGetId() {
 		Date date = new Date();
 		String id = "1234";
 		String comment = "test comment";
