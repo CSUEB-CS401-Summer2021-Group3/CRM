@@ -16,7 +16,7 @@ public class User extends Client{
 	private int id;
 	private String role;
 	private String salesManager; // Since each client has a manager. 
-	private static String internalPasswordSalt; // Temp
+	private static String password; // Temp
 	private String salt;
 	
 	// Each Sales class should the option to do CRUD applications to their Client list.
@@ -55,8 +55,8 @@ public class User extends Client{
 	public void setManagerName(String m) {
 		this.salesManager = m;
 	}
-	public void setInternalPassword(String password){
-		this.internalPasswordSalt = saltPassword(password);
+	public void setInternalPassword(String npassword){
+		this.password = npassword;
 	}
 
 
@@ -93,6 +93,7 @@ public class User extends Client{
 	* @param Pass in password string information, saves updated hash data.
 	* @return No return.
 	*/
+	//**
 	public static String saltPassword(String CPass) {
 		MessageDigest md;
 		
@@ -111,14 +112,14 @@ public class User extends Client{
 			
 			for(byte i : hased)
 				sb.append(String.format("%02x", i));
-				internalPasswordSalt = sb.toString(); // Stores client data
-				return internalPasswordSalt;
+				password = sb.toString(); // Stores client data
+				return password;
 
 		}catch (Exception e) {
 			System.out.println("NOT SUCCESSFUL. TRY AGAIN.");
 		}
 
-		return internalPasswordSalt;
+		return password;
 	
 	}
 
@@ -165,7 +166,7 @@ public class User extends Client{
 		return this.salt;
 	}
 	public String Getpassword() {
-		return this.internalPasswordSalt;
+		return this.password;
 	}
 	public void editClient() {
 		
