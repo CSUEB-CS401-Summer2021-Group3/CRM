@@ -13,6 +13,12 @@ import java.util.logging.Logger;
 import edu.cs401group3.crm.commands.user.User;
 import edu.cs401group3.crm.common.message.StorageMessage;
 
+/** StorageManager Class.
+ * The StorageManager runs in a background thread and polls the StorageQueue for StorageMessages to save to a datafile.<br> 
+ * 
+ * 
+ * @author Nicholas Krone
+*/
 public class StorageManager implements Runnable {
 
 	private StorageQueue queue = StorageQueue.getInstance();
