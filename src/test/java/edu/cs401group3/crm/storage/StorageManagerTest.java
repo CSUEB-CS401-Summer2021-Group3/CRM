@@ -16,6 +16,7 @@ import org.junit.Test;
 import edu.cs401group3.crm.common.message.StorageMessage;
 import edu.cs401group3.crm.fileio.FileOperation;
 import edu.cs401group3.crm.server.storage.StorageManager;
+import edu.cs401group3.crm.server.storage.StorageOperation;
 import edu.cs401group3.crm.server.storage.StorageQueue;
 
 public class StorageManagerTest {
@@ -44,6 +45,7 @@ public class StorageManagerTest {
 		content.put("data", "TEST STRING");
 		content.put("target", file);
 		msg.setContent(content);
+		msg.setOperation(StorageOperation.WRITE);
 		
 		try {
 			TimeUnit.SECONDS.sleep(2);
